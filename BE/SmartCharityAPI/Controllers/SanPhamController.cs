@@ -7,7 +7,6 @@ namespace SmartCharityAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
     public class SanPhamController : ControllerBase
     {
         private readonly ISanPhamRepository _repo;
@@ -55,5 +54,6 @@ namespace SmartCharityAPI.Controllers
             var ok = await _repo.DeleteAsync(id);
             return ok ? NoContent() : NotFound();
         }
+
     }
 }

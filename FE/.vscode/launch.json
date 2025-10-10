@@ -1,0 +1,17 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+    
+        {
+            "name": "smart_charity_shop (Flutter Infinix X669 (wireless))",
+            "program": "lib/main.dart",
+            "cwd": "smart_charity_shop",
+            "deviceId": "adb-10047643B4011531-bTVnyb._adb-tls-connect._tcp",
+            "request": "launch",
+            "type": "dart"
+        }
+    ]
+}

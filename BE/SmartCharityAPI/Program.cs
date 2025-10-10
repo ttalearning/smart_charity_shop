@@ -20,6 +20,7 @@ builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IChienDichRepository, ChienDichRepository>();
 builder.Services.AddScoped<IDongGopRepository, DongGopRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ILoaiSanPhamRepository, LoaiSanPhamRepository>();
 
 builder.Services.AddScoped<IThongKeRepository, ThongKeRepository>();
 

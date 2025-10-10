@@ -41,13 +41,13 @@ public partial class ChienDich
     public DateTime? NgayKetThuc { get; set; }
 
     [InverseProperty("ChienDich")]
+    public virtual ICollection<Donation> Donations { get; set; } = new List<Donation>();
+
+    [InverseProperty("ChienDich")]
     public virtual ICollection<DongGop> DongGops { get; set; } = new List<DongGop>();
 
     [InverseProperty("ChienDich")]
     public virtual ICollection<HinhAnhChienDich> HinhAnhChienDiches { get; set; } = new List<HinhAnhChienDich>();
-
-    [InverseProperty("ChienDich")]
-    public virtual ICollection<HoaDon> HoaDons { get; set; } = new List<HoaDon>();
 
     [ForeignKey("NguoiTaoId")]
     [InverseProperty("ChienDiches")]

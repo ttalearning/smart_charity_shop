@@ -89,6 +89,7 @@ namespace SmartCharityAPI.Repositories
             return new AuthResponseDTO
             {
                 Token = _jwt.GenerateToken(user),
+                Id = user.Id,
                 HoTen = user.HoTen,
                 Email = user.Email,
                 VaiTro = user.VaiTro,

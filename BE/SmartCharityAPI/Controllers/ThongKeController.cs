@@ -23,13 +23,13 @@ namespace SmartCharityAPI.Controllers
             return Ok(res);
         }
 
-        [HttpGet("revenue-by-month")]
-        public async Task<IActionResult> RevenueByMonth([FromQuery] int year)
-        {
-            if (year <= 0) year = DateTime.UtcNow.Year;
-            var res = await _repo.GetRevenueByMonthAsync(year);
-            return Ok(res);
-        }
+        //[HttpGet("revenue-by-month")]
+        //public async Task<IActionResult> RevenueByMonth([FromQuery] int year)
+        //{
+        //    if (year <= 0) year = DateTime.UtcNow.Year;
+        //    var res = await _repo.GetRevenueByMonthAsync(year);
+        //    return Ok(res);
+        //}
 
         [HttpGet("top-campaigns")]
         public async Task<IActionResult> TopCampaigns([FromQuery] int limit = 5)
@@ -45,11 +45,11 @@ namespace SmartCharityAPI.Controllers
             return Ok(res);
         }
 
-        [HttpGet("recent-orders")]
-        public async Task<IActionResult> RecentOrders([FromQuery] int limit = 10)
-        {
-            var res = await _repo.GetRecentOrdersAsync(limit);
-            return Ok(res);
-        }
+        //[HttpGet("recent-orders")]
+        //public async Task<IActionResult> RecentOrders([FromQuery] int limit = 10)
+        //{
+        //    var res = await _repo.GetRecentOrdersAsync(limit);
+        //    return Ok(res);
+        //}
     }
 }

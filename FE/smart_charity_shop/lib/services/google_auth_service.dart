@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_charity_shop/configs/ApiConfig.dart';
 import 'auth_service.dart';
 
@@ -9,6 +10,8 @@ class GoogleAuthService {
     try {
       final googleSignIn = GoogleSignIn(scopes: ['email', 'profile']);
       await googleSignIn.signOut();
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.clear();
       final googleUser = await googleSignIn.signIn();
       if (googleUser == null) return false;
 

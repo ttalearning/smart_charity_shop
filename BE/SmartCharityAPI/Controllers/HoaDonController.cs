@@ -9,7 +9,6 @@ namespace SmartCharityAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
     public class HoaDonController : ControllerBase
     {
         private readonly IHoaDonRepository _repo;
@@ -19,18 +18,16 @@ namespace SmartCharityAPI.Controllers
             _repo = repo;
         }
 
-        [HttpPost("create")]
-        public async Task<IActionResult> Create([FromBody] HoaDonRequestDTO dto)
+        [HttpPost("{userId}")]
+        public async Task<IActionResult> Create([FromBody] HoaDonRequestDTO dto, int userId)
         {
-            var userId = int.Parse(User.FindFirst("UserId")!.Value);
             var result = await _repo.CreateAsync(userId, dto);
             return Ok(result);
         }
 
         [HttpGet("me")]
-        public async Task<IActionResult> GetMyOrders()
+        public async Task<IActionResult> GetMyOrders(int userId)
         {
-            var userId = int.Parse(User.FindFirst("UserId")!.Value);
             var list = await _repo.GetByUserAsync(userId);
             return Ok(list);
         }

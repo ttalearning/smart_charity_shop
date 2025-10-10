@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 namespace SmartCharityAPI.Models;
 
 [Table("ChiTietHoaDon")]
+[Index("HoaDonId", Name = "IX_ChiTietHoaDon_HoaDonId")]
+[Index("SanPhamId", Name = "IX_ChiTietHoaDon_SanPhamId")]
 public partial class ChiTietHoaDon
 {
     [Key]
@@ -16,10 +18,16 @@ public partial class ChiTietHoaDon
 
     public int SanPhamId { get; set; }
 
-    public int SoLuong { get; set; }
+    [StringLength(255)]
+    public string? TenSanPham { get; set; }
 
     [Column(TypeName = "decimal(18, 2)")]
-    public decimal Gia { get; set; }
+    public decimal GiaLucBan { get; set; }
+
+    public int SoLuong { get; set; }
+
+    [Column(TypeName = "decimal(29, 2)")]
+    public decimal? ThanhTien { get; set; }
 
     [ForeignKey("HoaDonId")]
     [InverseProperty("ChiTietHoaDons")]

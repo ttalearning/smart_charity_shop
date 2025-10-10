@@ -15,66 +15,58 @@ namespace SmartCharityAPI.Repositories
 
         public async Task<HoaDonResponseDTO> CreateAsync(int userId, HoaDonRequestDTO dto)
         {
-            
-            decimal tongTien = dto.ChiTiet.Sum(c => c.SoLuong * c.Gia);
-            decimal tienDonate = tongTien * 0.1m;
+            // ====== 1️⃣ Tính tổng tiền hàng và tiền donate ======
+            decimal tongTienHang = dto.ChiTiet.Sum(c => c.SoLuong * c.GiaLucBan);
+            decimal tienDonate = tongTienHang * 0.1m; // 10% tiền quyên góp
 
-            
+            // ====== 2️⃣ Tạo mới hóa đơn ======
             var hoaDon = new HoaDon
             {
                 NguoiDungId = userId,
-                ChienDichId = dto.ChienDichId,
-                TongTien = tongTien,
-                TienDonate = tienDonate,
+                TongTienHang = tongTienHang,
+                PhiShip = 0,
+                GiamGia = 0,
+                Thue = 0,
                 LoaiThanhToan = dto.LoaiThanhToan,
                 TrangThaiThanhToan = "Success",
-                NgayTao = DateTime.UtcNow
+                TrangThaiDonHang = "Pending",
+                TenNguoiNhan = dto.TenNguoiNhan,
+                SoDienThoai = dto.SoDienThoai,
+                DiaChiNhan = dto.DiaChiNhan,
+                GhiChu = dto.GhiChu,
+                CreatedAt = DateTime.UtcNow
             };
+
             _context.HoaDons.Add(hoaDon);
             await _context.SaveChangesAsync();
 
-            
+            // ====== 3️⃣ Lưu chi tiết hóa đơn ======
             foreach (var item in dto.ChiTiet)
             {
+                var sanPham = await _context.SanPhams.FindAsync(item.SanPhamId);
+
                 _context.ChiTietHoaDons.Add(new ChiTietHoaDon
                 {
                     HoaDonId = hoaDon.Id,
                     SanPhamId = item.SanPhamId,
-                    SoLuong = item.SoLuong,
-                    Gia = item.Gia
+                    TenSanPham = sanPham?.TenSanPham,
+                    GiaLucBan = item.GiaLucBan,
+                    SoLuong = item.SoLuong
                 });
             }
-            await _context.SaveChangesAsync();
-
-            
-            var dongGop = new DongGop
-            {
-                NguoiDungId = userId,
-                ChienDichId = dto.ChienDichId,
-                SoTien = tienDonate,
-                LoaiNguon = "HoaDon",
-                NgayTao = DateTime.UtcNow
-            };
-            _context.DongGops.Add(dongGop);
-
-            
-            var cd = await _context.ChienDiches.FindAsync(dto.ChienDichId);
-            if (cd != null)
-                cd.SoTienHienTai += tienDonate;
 
             await _context.SaveChangesAsync();
 
             
+            // ====== 6️⃣ Chuẩn bị dữ liệu trả về ======
             return new HoaDonResponseDTO
             {
                 Id = hoaDon.Id,
-                TongTien = tongTien,
+                TongTienHang = tongTienHang,
                 TienDonate = tienDonate,
                 LoaiThanhToan = hoaDon.LoaiThanhToan,
                 TrangThaiThanhToan = hoaDon.TrangThaiThanhToan,
-                TenChienDich = cd?.TenChienDich,
-                NgayTao = hoaDon.NgayTao ?? DateTime.Now,
-
+                CreatedAt = hoaDon.CreatedAt ?? DateTime.Now,
                 ChiTiet = dto.ChiTiet
             };
         }
@@ -82,18 +74,16 @@ namespace SmartCharityAPI.Repositories
         public async Task<IEnumerable<HoaDonResponseDTO>> GetByUserAsync(int userId)
         {
             var list = await _context.HoaDons
-                .Include(h => h.ChienDich)
                 .Where(h => h.NguoiDungId == userId)
+                .OrderByDescending(h => h.CreatedAt)
                 .Select(h => new HoaDonResponseDTO
                 {
                     Id = h.Id,
-                    TongTien = h.TongTien,
-                    TienDonate = h.TienDonate,
+                    TongTienHang = h.TongTienHang,
+                    TienDonate = (decimal)(h.TongTienHang * 0.1m),
                     LoaiThanhToan = h.LoaiThanhToan,
                     TrangThaiThanhToan = h.TrangThaiThanhToan,
-                    TenChienDich = h.ChienDich.TenChienDich,
-                    NgayTao = h.NgayTao ?? DateTime.Now,
-
+                    CreatedAt = h.CreatedAt ?? DateTime.Now,
                 }).ToListAsync();
 
             return list;
@@ -101,20 +91,29 @@ namespace SmartCharityAPI.Repositories
 
         public async Task<HoaDonResponseDTO?> GetByIdAsync(int id, int userId)
         {
-            return await _context.HoaDons
-                .Include(h => h.ChienDich)
-                .Where(h => h.Id == id && h.NguoiDungId == userId)
-                .Select(h => new HoaDonResponseDTO
-                {
-                    Id = h.Id,
-                    TongTien = h.TongTien,
-                    TienDonate = h.TienDonate,
-                    LoaiThanhToan = h.LoaiThanhToan,
-                    TrangThaiThanhToan = h.TrangThaiThanhToan,
-                    TenChienDich = h.ChienDich.TenChienDich,
-                    NgayTao = h.NgayTao ?? DateTime.Now,
+            var h = await _context.HoaDons
+                .Include(hd => hd.ChiTietHoaDons)
+                .Where(hd => hd.Id == id && hd.NguoiDungId == userId)
+                .FirstOrDefaultAsync();
 
-                }).FirstOrDefaultAsync();
+            if (h == null) return null;
+
+            return new HoaDonResponseDTO
+            {
+                Id = h.Id,
+                TongTienHang = h.TongTienHang,
+                TienDonate = (decimal)(h.TongTienHang * 0.1m),
+                LoaiThanhToan = h.LoaiThanhToan,
+                TrangThaiThanhToan = h.TrangThaiThanhToan,
+
+                CreatedAt = h.CreatedAt ?? DateTime.Now,
+                ChiTiet = h.ChiTietHoaDons.Select(c => new ChiTietHoaDonDTO
+                {
+                    SanPhamId = c.SanPhamId,
+                    SoLuong = c.SoLuong,
+                    GiaLucBan = c.GiaLucBan
+                }).ToList()
+            };
         }
     }
 }

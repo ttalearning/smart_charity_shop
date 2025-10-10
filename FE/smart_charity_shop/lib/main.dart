@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:smart_charity_shop/services/auth_service.dart';
+import 'package:smart_charity_shop/state/cart_provider.dart';
 import 'package:smart_charity_shop/ui/screens/auth/login_screen.dart';
 import 'package:smart_charity_shop/ui/screens/home_screen.dart';
 import 'theme/app_theme.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const SmartCharityApp());
+  final cart = CartProvider();
+  await cart.load();
+  runApp(
+    ChangeNotifierProvider(create: (_) => cart, child: const SmartCharityApp()),
+  );
 }
 
 class SmartCharityApp extends StatelessWidget {
@@ -19,7 +25,7 @@ class SmartCharityApp extends StatelessWidget {
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       debugShowCheckedModeBanner: false,
-      home: const SplashRouter(),
+      home: const LoginScreen(),
     );
   }
 }

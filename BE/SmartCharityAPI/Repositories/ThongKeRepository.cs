@@ -15,7 +15,7 @@ namespace SmartCharityAPI.Repositories
 
         public async Task<SummaryDTO> GetSummaryAsync()
         {
-            var tongDoanhThu = await _context.HoaDons.SumAsync(h => (decimal?)h.TongTien) ?? 0m;
+            var tongDoanhThu = await _context.HoaDons.SumAsync(h => (decimal?)h.TongThanhToan) ?? 0m;
             var tongDonate = await _context.DongGops.SumAsync(d => (decimal?)d.SoTien) ?? 0m;
             var tongHoaDon = await _context.HoaDons.CountAsync();
             var tongChienDich = await _context.ChienDiches.CountAsync();
@@ -30,31 +30,7 @@ namespace SmartCharityAPI.Repositories
             };
         }
 
-        public async Task<IEnumerable<RevenuePointDTO>> GetRevenueByMonthAsync(int year)
-        {
-            int yearNow = DateTime.Now.Year;
-            var data = await _context.HoaDons
-                .Where(h => (h.NgayTao ?? DateTime.Now).Year == year)
-                .GroupBy(h => (h.NgayTao ?? DateTime.Now).Month)
-                .Select(g => new RevenuePointDTO
-                {
-                    Thang = g.Key,
-                    DoanhThu = g.Sum(x => x.TongTien),
-                    Donate = g.Sum(x => x.TienDonate),
-                    SoHoaDon = g.Count()
-                })
-                .ToListAsync();
-
-            // Bổ sung tháng không có dữ liệu (0) để chart đẹp
-            var map = data.ToDictionary(x => x.Thang);
-            var result = new List<RevenuePointDTO>();
-            for (int m = 1; m <= 12; m++)
-            {
-                if (map.TryGetValue(m, out var v)) result.Add(v);
-                else result.Add(new RevenuePointDTO { Thang = m, DoanhThu = 0, Donate = 0, SoHoaDon = 0 });
-            }
-            return result.OrderBy(x => x.Thang);
-        }
+        
 
         public async Task<IEnumerable<TopCampaignDTO>> GetTopCampaignsAsync(int limit)
         {
@@ -97,27 +73,6 @@ namespace SmartCharityAPI.Repositories
             return top;
         }
 
-        public async Task<IEnumerable<RecentOrderDTO>> GetRecentOrdersAsync(int limit)
-        {
-            var q = await _context.HoaDons
-                .Include(h => h.NguoiDung)
-                .Include(h => h.ChienDich)
-                .OrderByDescending(h => h.NgayTao)
-                .Take(limit)
-                .Select(h => new RecentOrderDTO
-                {
-                    Id = h.Id,
-                    NgayTao = h.NgayTao ?? DateTime.Now,
-                    TongTien = h.TongTien,
-                    TienDonate = h.TienDonate,
-                    LoaiThanhToan = h.LoaiThanhToan,
-                    TrangThaiThanhToan = h.TrangThaiThanhToan,
-                    TenChienDich = h.ChienDich.TenChienDich,
-                    TenKhach = h.NguoiDung.HoTen
-                })
-                .ToListAsync();
-
-            return q;
-        }
+        
     }
 }

@@ -8,13 +8,15 @@ class AuthService {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('jwt_token', data['token'] ?? '');
     await prefs.setString('user_name', data['hoTen'] ?? '');
+    await prefs.setInt('user_id', data['id'] ?? 0);
     await prefs.setString('user_email', data['email'] ?? '');
     await prefs.setString('user_role', data['vaiTro'] ?? '');
     await prefs.setString('user_avatar', data['avatarUrl'] ?? '');
   }
 
   static Future<bool> login(String email, String password) async {
-    final url = Uri.parse("$ApiConfig/Auth/Login");
+    final url = Uri.parse("${ApiConfig.baseUrl}/Auth/Login");
+
     final res = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},

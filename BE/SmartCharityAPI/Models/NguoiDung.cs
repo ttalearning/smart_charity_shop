@@ -43,6 +43,9 @@ public partial class NguoiDung
     public virtual ICollection<ChienDich> ChienDiches { get; set; } = new List<ChienDich>();
 
     [InverseProperty("NguoiDung")]
+    public virtual ICollection<Donation> Donations { get; set; } = new List<Donation>();
+
+    [InverseProperty("NguoiDung")]
     public virtual ICollection<DongGop> DongGops { get; set; } = new List<DongGop>();
 
     [InverseProperty("NguoiDung")]
