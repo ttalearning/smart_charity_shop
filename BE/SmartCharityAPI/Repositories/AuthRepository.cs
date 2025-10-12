@@ -137,6 +137,7 @@ namespace SmartCharityAPI.Repositories
             return new AuthResponseDTO
             {
                 Token = token,
+                Id = user.Id,
                 HoTen = user.HoTen,
                 Email = user.Email,
                 VaiTro = user.VaiTro,

@@ -60,10 +60,9 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
       final g = p.gia;
       return g >= _priceRange.start && g <= _priceRange.end;
     }).toList();
-    // nếu đã chọn loại nhưng endpoint trả toàn bộ, vẫn lọc an toàn:
-    if (_selectedLoaiId != null) {
-      list = list.where((p) => p.loaiId == _selectedLoaiId).toList();
-    }
+    // if (_selectedLoaiId != null) {
+    //   list = list.where((p) => p.loaiId == _selectedLoaiId).toList();
+    // }
     return list;
   }
 

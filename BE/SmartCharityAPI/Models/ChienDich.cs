@@ -41,9 +41,6 @@ public partial class ChienDich
     public DateTime? NgayKetThuc { get; set; }
 
     [InverseProperty("ChienDich")]
-    public virtual ICollection<Donation> Donations { get; set; } = new List<Donation>();
-
-    [InverseProperty("ChienDich")]
     public virtual ICollection<DongGop> DongGops { get; set; } = new List<DongGop>();
 
     [InverseProperty("ChienDich")]

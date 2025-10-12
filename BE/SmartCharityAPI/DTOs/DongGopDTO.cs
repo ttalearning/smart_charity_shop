@@ -7,6 +7,9 @@
         public string TenNguoiDung { get; set; } = "";
         public int ChienDichId { get; set; }
         public string TenChienDich { get; set; } = "";
+
+        public string? LoiNhan { get; set; }
+
         public decimal SoTien { get; set; }
         public string LoaiNguon { get; set; } = "";
         public DateTime NgayTao { get; set; }
@@ -16,6 +19,9 @@
     {
         public int ChienDichId { get; set; }
         public decimal SoTien { get; set; }
+        public string? LoaiNguon { get; set; }
+        public string? LoiNhan { get; set; }
+
     }
 
     public class TopDongGopDTO

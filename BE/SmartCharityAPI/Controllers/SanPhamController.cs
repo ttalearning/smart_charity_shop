@@ -22,6 +22,12 @@ namespace SmartCharityAPI.Controllers
             var list = await _repo.GetAllAsync();
             return Ok(list);
         }
+        [HttpGet("by-category/{categoryId}")]
+        public async Task<IActionResult> GetByCategory(int categoryId)
+        {
+            var list = await _repo.GetByCategory(categoryId);
+            return Ok(list);
+        }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)

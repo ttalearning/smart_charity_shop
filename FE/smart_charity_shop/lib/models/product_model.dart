@@ -28,4 +28,15 @@ class Product {
       tenLoai: json['tenLoai'],
     );
   }
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'tenSanPham': tenSanPham,
+      'gia': gia,
+      'moTa': moTa,
+      'anhChinh': anhChinh,
+      'loaiId': loaiId,
+      'tenLoai': tenLoai,
+    };
+  }
 }

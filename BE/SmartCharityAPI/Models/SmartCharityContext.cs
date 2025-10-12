@@ -19,8 +19,6 @@ public partial class SmartCharityContext : DbContext
 
     public virtual DbSet<ChienDich> ChienDiches { get; set; }
 
-    public virtual DbSet<Donation> Donations { get; set; }
-
     public virtual DbSet<DongGop> DongGops { get; set; }
 
     public virtual DbSet<HinhAnhChienDich> HinhAnhChienDiches { get; set; }
@@ -64,18 +62,6 @@ public partial class SmartCharityContext : DbContext
             entity.HasOne(d => d.NguoiTao).WithMany(p => p.ChienDiches)
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK__ChienDich__Nguoi__4CA06362");
-        });
-
-        modelBuilder.Entity<Donation>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__Donation__3214EC078816934C");
-
-            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(sysdatetime())");
-            entity.Property(e => e.Source).HasDefaultValue("POINTS");
-
-            entity.HasOne(d => d.ChienDich).WithMany(p => p.Donations).HasConstraintName("FK__Donation__ChienD__0C85DE4D");
-
-            entity.HasOne(d => d.NguoiDung).WithMany(p => p.Donations).HasConstraintName("FK__Donation__NguoiD__0B91BA14");
         });
 
         modelBuilder.Entity<DongGop>(entity =>

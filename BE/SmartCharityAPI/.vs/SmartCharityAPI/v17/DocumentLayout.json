@@ -3,36 +3,40 @@
   "WorkspaceRootPath": "D:\\Dev\\Project\\SmartCharity\\BE\\SmartCharityAPI\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A3ABDFDA-BFFE-4379-B397-C2A4BBCF8B3D}|SmartCharityAPI.csproj|d:\\dev\\project\\smartcharity\\be\\smartcharityapi\\controllers\\hoadoncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A3ABDFDA-BFFE-4379-B397-C2A4BBCF8B3D}|SmartCharityAPI.csproj|solutionrelative:controllers\\hoadoncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A3ABDFDA-BFFE-4379-B397-C2A4BBCF8B3D}|SmartCharityAPI.csproj|d:\\dev\\project\\smartcharity\\be\\smartcharityapi\\repositories\\donggoprepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A3ABDFDA-BFFE-4379-B397-C2A4BBCF8B3D}|SmartCharityAPI.csproj|solutionrelative:repositories\\donggoprepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A3ABDFDA-BFFE-4379-B397-C2A4BBCF8B3D}|SmartCharityAPI.csproj|d:\\dev\\project\\smartcharity\\be\\smartcharityapi\\repositories\\hoadonrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A3ABDFDA-BFFE-4379-B397-C2A4BBCF8B3D}|SmartCharityAPI.csproj|solutionrelative:repositories\\hoadonrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A3ABDFDA-BFFE-4379-B397-C2A4BBCF8B3D}|SmartCharityAPI.csproj|d:\\dev\\project\\smartcharity\\be\\smartcharityapi\\repositories\\authrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A3ABDFDA-BFFE-4379-B397-C2A4BBCF8B3D}|SmartCharityAPI.csproj|solutionrelative:repositories\\authrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A3ABDFDA-BFFE-4379-B397-C2A4BBCF8B3D}|SmartCharityAPI.csproj|d:\\dev\\project\\smartcharity\\be\\smartcharityapi\\controllers\\hoadoncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A3ABDFDA-BFFE-4379-B397-C2A4BBCF8B3D}|SmartCharityAPI.csproj|solutionrelative:controllers\\hoadoncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A3ABDFDA-BFFE-4379-B397-C2A4BBCF8B3D}|SmartCharityAPI.csproj|d:\\dev\\project\\smartcharity\\be\\smartcharityapi\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A3ABDFDA-BFFE-4379-B397-C2A4BBCF8B3D}|SmartCharityAPI.csproj|solutionrelative:controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A3ABDFDA-BFFE-4379-B397-C2A4BBCF8B3D}|SmartCharityAPI.csproj|d:\\dev\\project\\smartcharity\\be\\smartcharityapi\\controllers\\donggopcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A3ABDFDA-BFFE-4379-B397-C2A4BBCF8B3D}|SmartCharityAPI.csproj|solutionrelative:controllers\\donggopcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A3ABDFDA-BFFE-4379-B397-C2A4BBCF8B3D}|SmartCharityAPI.csproj|d:\\dev\\project\\smartcharity\\be\\smartcharityapi\\controllers\\chiendichcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A3ABDFDA-BFFE-4379-B397-C2A4BBCF8B3D}|SmartCharityAPI.csproj|solutionrelative:controllers\\chiendichcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A3ABDFDA-BFFE-4379-B397-C2A4BBCF8B3D}|SmartCharityAPI.csproj|d:\\dev\\project\\smartcharity\\be\\smartcharityapi\\dtos\\hoadondto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A3ABDFDA-BFFE-4379-B397-C2A4BBCF8B3D}|SmartCharityAPI.csproj|solutionrelative:dtos\\hoadondto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A3ABDFDA-BFFE-4379-B397-C2A4BBCF8B3D}|SmartCharityAPI.csproj|d:\\dev\\project\\smartcharity\\be\\smartcharityapi\\controllers\\thongkecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A3ABDFDA-BFFE-4379-B397-C2A4BBCF8B3D}|SmartCharityAPI.csproj|solutionrelative:controllers\\thongkecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A3ABDFDA-BFFE-4379-B397-C2A4BBCF8B3D}|SmartCharityAPI.csproj|d:\\dev\\project\\smartcharity\\be\\smartcharityapi\\dtos\\chiendichdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A3ABDFDA-BFFE-4379-B397-C2A4BBCF8B3D}|SmartCharityAPI.csproj|solutionrelative:dtos\\chiendichdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A3ABDFDA-BFFE-4379-B397-C2A4BBCF8B3D}|SmartCharityAPI.csproj|d:\\dev\\project\\smartcharity\\be\\smartcharityapi\\repositories\\ithongkerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A3ABDFDA-BFFE-4379-B397-C2A4BBCF8B3D}|SmartCharityAPI.csproj|solutionrelative:repositories\\ithongkerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A3ABDFDA-BFFE-4379-B397-C2A4BBCF8B3D}|SmartCharityAPI.csproj|d:\\dev\\project\\smartcharity\\be\\smartcharityapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A3ABDFDA-BFFE-4379-B397-C2A4BBCF8B3D}|SmartCharityAPI.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A3ABDFDA-BFFE-4379-B397-C2A4BBCF8B3D}|SmartCharityAPI.csproj|d:\\dev\\project\\smartcharity\\be\\smartcharityapi\\repositories\\thongkerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A3ABDFDA-BFFE-4379-B397-C2A4BBCF8B3D}|SmartCharityAPI.csproj|solutionrelative:repositories\\thongkerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A3ABDFDA-BFFE-4379-B397-C2A4BBCF8B3D}|SmartCharityAPI.csproj|d:\\dev\\project\\smartcharity\\be\\smartcharityapi\\models\\smartcharityshopdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A3ABDFDA-BFFE-4379-B397-C2A4BBCF8B3D}|SmartCharityAPI.csproj|solutionrelative:models\\smartcharityshopdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,7 +46,7 @@
       "DocumentGroups": [
         {
           "DockedHeight": 267,
-          "SelectedChildIndex": 10,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -66,106 +70,119 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "AuthRepository.cs",
-              "DocumentMoniker": "D:\\Dev\\Project\\SmartCharity\\BE\\SmartCharityAPI\\Repositories\\AuthRepository.cs",
-              "RelativeDocumentMoniker": "Repositories\\AuthRepository.cs",
-              "ToolTip": "D:\\Dev\\Project\\SmartCharity\\BE\\SmartCharityAPI\\Repositories\\AuthRepository.cs",
-              "RelativeToolTip": "Repositories\\AuthRepository.cs",
-              "ViewState": "AgIAAEAAAAAAAAAAAAAcwF0AAAAjAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-10T15:47:10.031Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "AuthController.cs",
-              "DocumentMoniker": "D:\\Dev\\Project\\SmartCharity\\BE\\SmartCharityAPI\\Controllers\\AuthController.cs",
-              "RelativeDocumentMoniker": "Controllers\\AuthController.cs",
-              "ToolTip": "D:\\Dev\\Project\\SmartCharity\\BE\\SmartCharityAPI\\Controllers\\AuthController.cs",
-              "RelativeToolTip": "Controllers\\AuthController.cs",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAowCYAAAAtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-10T15:46:56.256Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "ThongKeController.cs",
-              "DocumentMoniker": "D:\\Dev\\Project\\SmartCharity\\BE\\SmartCharityAPI\\Controllers\\ThongKeController.cs",
-              "RelativeDocumentMoniker": "Controllers\\ThongKeController.cs",
-              "ToolTip": "D:\\Dev\\Project\\SmartCharity\\BE\\SmartCharityAPI\\Controllers\\ThongKeController.cs",
-              "RelativeToolTip": "Controllers\\ThongKeController.cs",
-              "ViewState": "AgIAAC0AAAAAAAAAAAAmwDQAAAALAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-10T14:45:53.032Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "IThongKeRepository.cs",
-              "DocumentMoniker": "D:\\Dev\\Project\\SmartCharity\\BE\\SmartCharityAPI\\Repositories\\IThongKeRepository.cs",
-              "RelativeDocumentMoniker": "Repositories\\IThongKeRepository.cs",
-              "ToolTip": "D:\\Dev\\Project\\SmartCharity\\BE\\SmartCharityAPI\\Repositories\\IThongKeRepository.cs",
-              "RelativeToolTip": "Repositories\\IThongKeRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAKAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-10T14:45:01.219Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "ThongKeRepository.cs",
-              "DocumentMoniker": "D:\\Dev\\Project\\SmartCharity\\BE\\SmartCharityAPI\\Repositories\\ThongKeRepository.cs",
-              "RelativeDocumentMoniker": "Repositories\\ThongKeRepository.cs",
-              "ToolTip": "D:\\Dev\\Project\\SmartCharity\\BE\\SmartCharityAPI\\Repositories\\ThongKeRepository.cs",
-              "RelativeToolTip": "Repositories\\ThongKeRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAA6AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-10T14:43:40.286Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "HoaDonController.cs",
-              "DocumentMoniker": "D:\\Dev\\Project\\SmartCharity\\BE\\SmartCharityAPI\\Controllers\\HoaDonController.cs",
-              "RelativeDocumentMoniker": "Controllers\\HoaDonController.cs",
-              "ToolTip": "D:\\Dev\\Project\\SmartCharity\\BE\\SmartCharityAPI\\Controllers\\HoaDonController.cs",
-              "RelativeToolTip": "Controllers\\HoaDonController.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAA0wBQAAAAeAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-10T14:35:50.797Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "HoaDonDTO.cs",
-              "DocumentMoniker": "D:\\Dev\\Project\\SmartCharity\\BE\\SmartCharityAPI\\DTOs\\HoaDonDTO.cs",
-              "RelativeDocumentMoniker": "DTOs\\HoaDonDTO.cs",
-              "ToolTip": "D:\\Dev\\Project\\SmartCharity\\BE\\SmartCharityAPI\\DTOs\\HoaDonDTO.cs",
-              "RelativeToolTip": "DTOs\\HoaDonDTO.cs",
-              "ViewState": "AgIAAC4AAAAAAAAAAIA9wAgAAAAhAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-10T14:30:46.527Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
               "Title": "HoaDonRepository.cs",
               "DocumentMoniker": "D:\\Dev\\Project\\SmartCharity\\BE\\SmartCharityAPI\\Repositories\\HoaDonRepository.cs",
               "RelativeDocumentMoniker": "Repositories\\HoaDonRepository.cs",
               "ToolTip": "D:\\Dev\\Project\\SmartCharity\\BE\\SmartCharityAPI\\Repositories\\HoaDonRepository.cs",
               "RelativeToolTip": "Repositories\\HoaDonRepository.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAQwA8AAAA4AAAAAAAAAA==",
+              "ViewState": "AgIAAEsAAAAAAAAAAAAowF4AAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-10T14:29:22.243Z",
+              "WhenOpened": "2025-10-12T10:12:42.068Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DongGopRepository.cs",
+              "DocumentMoniker": "D:\\Dev\\Project\\SmartCharity\\BE\\SmartCharityAPI\\Repositories\\DongGopRepository.cs",
+              "RelativeDocumentMoniker": "Repositories\\DongGopRepository.cs",
+              "ToolTip": "D:\\Dev\\Project\\SmartCharity\\BE\\SmartCharityAPI\\Repositories\\DongGopRepository.cs",
+              "RelativeToolTip": "Repositories\\DongGopRepository.cs",
+              "ViewState": "AgIAACwAAAAAAAAAAAAQwEUAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-12T09:43:16.86Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\Dev\\Project\\SmartCharity\\BE\\SmartCharityAPI\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "D:\\Dev\\Project\\SmartCharity\\BE\\SmartCharityAPI\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-10-12T09:37:09.623Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ChienDichDTO.cs",
+              "DocumentMoniker": "D:\\Dev\\Project\\SmartCharity\\BE\\SmartCharityAPI\\DTOs\\ChienDichDTO.cs",
+              "RelativeDocumentMoniker": "DTOs\\ChienDichDTO.cs",
+              "ToolTip": "D:\\Dev\\Project\\SmartCharity\\BE\\SmartCharityAPI\\DTOs\\ChienDichDTO.cs",
+              "RelativeToolTip": "DTOs\\ChienDichDTO.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAuwAcAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-12T08:45:21.691Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "HoaDonDTO.cs",
+              "DocumentMoniker": "D:\\Dev\\Project\\SmartCharity\\BE\\SmartCharityAPI\\DTOs\\HoaDonDTO.cs",
+              "RelativeDocumentMoniker": "DTOs\\HoaDonDTO.cs",
+              "ToolTip": "D:\\Dev\\Project\\SmartCharity\\BE\\SmartCharityAPI\\DTOs\\HoaDonDTO.cs",
+              "RelativeToolTip": "DTOs\\HoaDonDTO.cs",
+              "ViewState": "AgIAACMAAAAAAAAAAAAqwCoAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-12T06:46:02.957Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "HoaDonController.cs",
+              "DocumentMoniker": "D:\\Dev\\Project\\SmartCharity\\BE\\SmartCharityAPI\\Controllers\\HoaDonController.cs",
+              "RelativeDocumentMoniker": "Controllers\\HoaDonController.cs",
+              "ToolTip": "D:\\Dev\\Project\\SmartCharity\\BE\\SmartCharityAPI\\Controllers\\HoaDonController.cs",
+              "RelativeToolTip": "Controllers\\HoaDonController.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAvwCEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-12T06:46:00.964Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ChienDichController.cs",
+              "DocumentMoniker": "D:\\Dev\\Project\\SmartCharity\\BE\\SmartCharityAPI\\Controllers\\ChienDichController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ChienDichController.cs",
+              "ToolTip": "D:\\Dev\\Project\\SmartCharity\\BE\\SmartCharityAPI\\Controllers\\ChienDichController.cs",
+              "RelativeToolTip": "Controllers\\ChienDichController.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAQwBwAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-12T06:30:53.609Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "DongGopController.cs",
+              "DocumentMoniker": "D:\\Dev\\Project\\SmartCharity\\BE\\SmartCharityAPI\\Controllers\\DongGopController.cs",
+              "RelativeDocumentMoniker": "Controllers\\DongGopController.cs",
+              "ToolTip": "D:\\Dev\\Project\\SmartCharity\\BE\\SmartCharityAPI\\Controllers\\DongGopController.cs",
+              "RelativeToolTip": "Controllers\\DongGopController.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAqwBcAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-12T06:16:13.347Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "SmartCharityShopDbContext.cs",
+              "DocumentMoniker": "D:\\Dev\\Project\\SmartCharity\\BE\\SmartCharityAPI\\Models\\SmartCharityShopDbContext.cs",
+              "RelativeDocumentMoniker": "Models\\SmartCharityShopDbContext.cs",
+              "ToolTip": "D:\\Dev\\Project\\SmartCharity\\BE\\SmartCharityAPI\\Models\\SmartCharityShopDbContext.cs",
+              "RelativeToolTip": "Models\\SmartCharityShopDbContext.cs",
+              "ViewState": "AgIAABcAAAAAAAAAAAAAAGoAAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-12T04:22:12.385Z",
               "EditorCaption": ""
             }
           ]

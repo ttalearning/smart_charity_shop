@@ -6,14 +6,20 @@ class OrderRequest {
   final String diaChiNhan;
   final String? ghiChu;
   final String loaiThanhToan;
+  final String? loiNhan;
+  final String trangThaiThanhToan;
+  final int? chienDichId;
   final List<OrderItem> chiTiet;
 
   OrderRequest({
     required this.tenNguoiNhan,
     required this.soDienThoai,
     required this.diaChiNhan,
+    required this.loiNhan,
+    required this.trangThaiThanhToan,
     this.ghiChu,
-    this.loaiThanhToan = "COD", // Mặc định COD
+    this.loaiThanhToan = "COD",
+    this.chienDichId, // ✅ thêm
     required this.chiTiet,
   });
 
@@ -22,24 +28,34 @@ class OrderRequest {
     "soDienThoai": soDienThoai,
     "diaChiNhan": diaChiNhan,
     "ghiChu": ghiChu,
+    "loiNhan": loiNhan,
     "loaiThanhToan": loaiThanhToan,
+    "trangThaiThanhToan": trangThaiThanhToan,
+    "chienDichId": chienDichId,
     "chiTiet": chiTiet.map((e) => e.toJson()).toList(),
   };
 
+  /// ✅ Dễ dàng khởi tạo từ giỏ hàng
   static OrderRequest fromCart({
     required String hoTen,
     required String sdt,
     required String diaChi,
+    required String loinhan,
+    required List<CartItem> cartItems,
     String? ghiChu,
     String loaiThanhToan = "COD",
-    required List<CartItem> cartItems,
+    String trangThaiThanhToan = "PENDING",
+    int? chienDichId,
   }) {
     return OrderRequest(
       tenNguoiNhan: hoTen,
       soDienThoai: sdt,
       diaChiNhan: diaChi,
+      loiNhan: loinhan,
       ghiChu: ghiChu,
       loaiThanhToan: loaiThanhToan,
+      trangThaiThanhToan: trangThaiThanhToan,
+      chienDichId: chienDichId,
       chiTiet: cartItems
           .map(
             (it) => OrderItem(

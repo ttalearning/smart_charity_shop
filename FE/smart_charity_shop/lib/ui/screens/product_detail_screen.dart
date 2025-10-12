@@ -43,7 +43,59 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         title: Text(p.tenSanPham),
         backgroundColor: AppColors.primary,
         foregroundColor: Colors.white,
+        actions: [
+          Stack(
+            alignment: Alignment.topRight,
+            children: [
+              IconButton(
+                icon: const Icon(Icons.shopping_cart_rounded),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const CartScreen()),
+                  );
+                },
+              ),
+              Positioned(
+                right: 6,
+                top: 6,
+                child: Consumer<CartProvider>(
+                  builder: (_, cart, __) => cart.totalQuantity == 0
+                      ? Container(
+                          padding: const EdgeInsets.all(4),
+                          decoration: const BoxDecoration(
+                            color: Colors.red,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Text(
+                            '${cart.totalQuantity}',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 11,
+                            ),
+                          ),
+                        )
+                      : Container(
+                          padding: const EdgeInsets.all(4),
+                          decoration: const BoxDecoration(
+                            color: Colors.red,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Text(
+                            '${cart.totalQuantity}',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 11,
+                            ),
+                          ),
+                        ),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
+
       bottomNavigationBar: _BottomBar(
         price: p.gia,
         onAddToCart: () {

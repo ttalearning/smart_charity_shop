@@ -11,6 +11,11 @@ namespace SmartCharityAPI.DTOs
         public int NguoiDungId { get; set; }                     // Người dùng mua                  // Dành cho donate
         public string LoaiThanhToan { get; set; } = "COD";       // COD / Momo / VNPay
         public string? TenNguoiNhan { get; set; }
+
+        public string? TrangThaiThanhToan { get; set; }
+
+        public int? ChienDichId { get; set; }
+
         public string? SoDienThoai { get; set; }
         public string? DiaChiNhan { get; set; }
         public string? GhiChu { get; set; }

@@ -104,14 +104,6 @@ public partial class SmartCharityShopDbContext : DbContext
             entity.Property(e => e.Source)
                 .HasMaxLength(20)
                 .HasDefaultValue("POINTS");
-
-            entity.HasOne(d => d.ChienDich).WithMany(p => p.Donations)
-                .HasForeignKey(d => d.ChienDichId)
-                .HasConstraintName("FK__Donation__ChienD__0C85DE4D");
-
-            entity.HasOne(d => d.NguoiDung).WithMany(p => p.Donations)
-                .HasForeignKey(d => d.NguoiDungId)
-                .HasConstraintName("FK__Donation__NguoiD__0B91BA14");
         });
 
         modelBuilder.Entity<DongGop>(entity =>

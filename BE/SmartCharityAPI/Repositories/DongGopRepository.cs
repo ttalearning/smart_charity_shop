@@ -31,6 +31,26 @@ namespace SmartCharityAPI.Repositories
                     NgayTao = d.NgayTao ?? DateTime.Now,
                 }).ToListAsync();
         }
+        public async Task<IEnumerable<DongGopDTO>> GetByCampaignAsync(int campaignId)
+        {
+            return await _context.DongGops
+                .Include(d => d.NguoiDung)
+                .Include(d => d.ChienDich)
+                .Where(d => d.ChienDichId == campaignId)
+                .OrderByDescending(d => d.NgayTao)
+                .Select(d => new DongGopDTO
+                {
+                    Id = d.Id,
+                    NguoiDungId = d.NguoiDungId,
+                    TenNguoiDung = d.NguoiDung.HoTen,
+                    ChienDichId = d.ChienDichId,
+                    TenChienDich = d.ChienDich.TenChienDich ,
+                    SoTien = d.SoTien,
+                    LoaiNguon = d.LoaiNguon,
+                    NgayTao = d.NgayTao ?? DateTime.Now,
+                })
+                .ToListAsync();
+        }
 
         public async Task<IEnumerable<DongGopDTO>> GetByUserAsync(int userId)
         {
@@ -45,6 +65,7 @@ namespace SmartCharityAPI.Repositories
                     ChienDichId = d.ChienDichId,
                     TenChienDich = d.ChienDich.TenChienDich,
                     SoTien = d.SoTien,
+                    LoiNhan = d.LoiNhan,
                     LoaiNguon = d.LoaiNguon,
                     NgayTao = d.NgayTao ?? DateTime.Now,
                 }).ToListAsync();
@@ -60,6 +81,7 @@ namespace SmartCharityAPI.Repositories
                 NguoiDungId = userId,
                 ChienDichId = dto.ChienDichId,
                 SoTien = dto.SoTien,
+                LoiNhan = dto.LoiNhan ?? "",
                 LoaiNguon = "Trực tiếp",
                 NgayTao = DateTime.UtcNow
             };

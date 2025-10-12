@@ -24,12 +24,17 @@ namespace SmartCharityAPI.Controllers
             var top = await _repo.GetTopAsync();
             return Ok(top);
         }
+        [HttpGet("by-campaign/{campaignId}")]
+        public async Task<IActionResult> GetByCampaign(int campaignId)
+        {
+            var list = await _repo.GetByCampaignAsync(campaignId);
+            return Ok(list);
+        }
 
         [Authorize]
-        [HttpGet("me")]
-        public async Task<IActionResult> GetMyDonations()
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetMyDonations(int userId)
         {
-            var userId = int.Parse(User.FindFirst("UserId")!.Value);
             var list = await _repo.GetByUserAsync(userId);
             return Ok(list);
         }

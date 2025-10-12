@@ -53,6 +53,40 @@ class AuthService {
     return false;
   }
 
+  /// PUT /api/Auth/change-password
+  static Future<bool> changePassword(
+    String oldPassword,
+    String newPassword,
+  ) async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('jwt_token');
+
+    if (token == null || token.isEmpty) {
+      throw Exception('Chưa đăng nhập');
+    }
+
+    final url = Uri.parse("${ApiConfig.baseUrl}/Auth/change-password");
+
+    final res = await http.put(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode({
+        'oldPassword': oldPassword,
+        'newPassword': newPassword,
+      }),
+    );
+
+    if (res.statusCode == 200) {
+      return true;
+    } else {
+      print("❌ Change password failed: ${res.body}");
+      return false;
+    }
+  }
+
   static Future<Map<String, dynamic>> getUserInfo() async {
     final prefs = await SharedPreferences.getInstance();
     return {

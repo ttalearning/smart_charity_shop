@@ -25,19 +25,23 @@ namespace SmartCharityAPI.Controllers
             return Ok(result);
         }
 
-        [HttpGet("me")]
+        [HttpGet("user/{userId}")]
         public async Task<IActionResult> GetMyOrders(int userId)
         {
             var list = await _repo.GetByUserAsync(userId);
             return Ok(list);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+
+        [HttpGet("{id}/{userId}")]
+        public async Task<IActionResult> GetById(int id, int userId)
         {
-            var userId = int.Parse(User.FindFirst("UserId")!.Value);
             var hd = await _repo.GetByIdAsync(id, userId);
-            return hd == null ? NotFound() : Ok(hd);
+            if (hd == null)
+                return NotFound(new { message = $"Không tìm thấy hóa đơn #{id} của user {userId}" });
+
+            return Ok(hd);
         }
+
     }
 }

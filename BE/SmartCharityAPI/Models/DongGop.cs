@@ -25,6 +25,9 @@ public partial class DongGop
     [Column(TypeName = "datetime")]
     public DateTime? NgayTao { get; set; }
 
+    [StringLength(200)]
+    public string? LoiNhan { get; set; }
+
     [ForeignKey("ChienDichId")]
     [InverseProperty("DongGops")]
     public virtual ChienDich ChienDich { get; set; } = null!;

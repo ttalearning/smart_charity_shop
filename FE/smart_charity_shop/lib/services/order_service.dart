@@ -6,14 +6,21 @@ import '../models/order_request.dart';
 
 class OrderService {
   /// POST /api/HoaDon
-  static Future<Map<String, dynamic>> createOrder(OrderRequest req) async {
+  static Future<Map<String, dynamic>> createOrder(
+    OrderRequest req, {
+    String? trangThaiThanhToan, // thêm tuỳ chọn
+  }) async {
     final prefs = await SharedPreferences.getInstance();
     final userId = prefs.getInt('user_id') ?? 0;
     final url = Uri.parse('${ApiConfig.baseUrl}/HoaDon/$userId');
 
-    // Lấy token nếu có (auth)
-    final sp = await SharedPreferences.getInstance();
-    final token = sp.getString('auth_token');
+    final token = prefs.getString('auth_token');
+
+    // Tạo body JSON và chèn trạng thái thanh toán nếu có
+    final body = req.toJson();
+    if (trangThaiThanhToan != null) {
+      body['trangThaiThanhToan'] = trangThaiThanhToan;
+    }
 
     final res = await http.post(
       url,
@@ -21,13 +28,66 @@ class OrderService {
         'Content-Type': 'application/json',
         if (token != null && token.isNotEmpty) 'Authorization': 'Bearer $token',
       },
-      body: jsonEncode(req.toJson()),
+      body: jsonEncode(body),
     );
 
     if (res.statusCode == 200 || res.statusCode == 201) {
       return jsonDecode(res.body) as Map<String, dynamic>;
     } else {
       throw Exception('Tạo hóa đơn thất bại [${res.statusCode}]: ${res.body}');
+    }
+  }
+
+  static Future<Map<String, dynamic>> getOrderDetail(int id) async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('auth_token');
+    final userId = prefs.getInt('user_id') ?? 0;
+
+    final url = Uri.parse('${ApiConfig.baseUrl}/HoaDon/$id/$userId');
+
+    final res = await http.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        if (token != null && token.isNotEmpty) 'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (res.statusCode == 200) {
+      return jsonDecode(res.body) as Map<String, dynamic>;
+    } else {
+      throw Exception(
+        'Không lấy được chi tiết hóa đơn [${res.statusCode}]: ${res.body}',
+      );
+    }
+  }
+
+  static Future<List<dynamic>> fetchMyOrders() async {
+    final prefs = await SharedPreferences.getInstance();
+    final userId = prefs.getInt('user_id') ?? 0;
+    final token = prefs.getString('auth_token');
+
+    final url = Uri.parse('${ApiConfig.baseUrl}/HoaDon/user/$userId');
+
+    final res = await http.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        if (token != null && token.isNotEmpty) 'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (res.statusCode == 200) {
+      final data = jsonDecode(res.body);
+      if (data is List) {
+        return data;
+      } else {
+        throw Exception('Phản hồi không đúng định dạng danh sách: $data');
+      }
+    } else {
+      throw Exception(
+        'Không lấy được danh sách hóa đơn [${res.statusCode}]: ${res.body}',
+      );
     }
   }
 }

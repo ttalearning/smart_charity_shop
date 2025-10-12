@@ -15,11 +15,9 @@ namespace SmartCharityAPI.Repositories
 
         public async Task<HoaDonResponseDTO> CreateAsync(int userId, HoaDonRequestDTO dto)
         {
-            // ====== 1️⃣ Tính tổng tiền hàng và tiền donate ======
             decimal tongTienHang = dto.ChiTiet.Sum(c => c.SoLuong * c.GiaLucBan);
             decimal tienDonate = tongTienHang * 0.1m; // 10% tiền quyên góp
 
-            // ====== 2️⃣ Tạo mới hóa đơn ======
             var hoaDon = new HoaDon
             {
                 NguoiDungId = userId,
@@ -28,7 +26,7 @@ namespace SmartCharityAPI.Repositories
                 GiamGia = 0,
                 Thue = 0,
                 LoaiThanhToan = dto.LoaiThanhToan,
-                TrangThaiThanhToan = "Success",
+                TrangThaiThanhToan = dto.TrangThaiThanhToan,
                 TrangThaiDonHang = "Pending",
                 TenNguoiNhan = dto.TenNguoiNhan,
                 SoDienThoai = dto.SoDienThoai,
@@ -40,7 +38,6 @@ namespace SmartCharityAPI.Repositories
             _context.HoaDons.Add(hoaDon);
             await _context.SaveChangesAsync();
 
-            // ====== 3️⃣ Lưu chi tiết hóa đơn ======
             foreach (var item in dto.ChiTiet)
             {
                 var sanPham = await _context.SanPhams.FindAsync(item.SanPhamId);
@@ -57,8 +54,23 @@ namespace SmartCharityAPI.Repositories
 
             await _context.SaveChangesAsync();
 
-            
-            // ====== 6️⃣ Chuẩn bị dữ liệu trả về ======
+            // ✅ Nếu là thanh toán MOMO thành công => tự tạo bản ghi Đóng Góp
+            if (dto.TrangThaiThanhToan?.Equals("SUCCESS", StringComparison.OrdinalIgnoreCase) == true
+                && dto.ChienDichId != null)
+            {
+                var dongGop = new DongGop
+                {
+                    NguoiDungId = userId,
+                    ChienDichId = dto.ChienDichId.Value,
+                    SoTien = tienDonate,
+                    LoaiNguon = "Tự động từ MoMo",
+                    NgayTao = DateTime.UtcNow
+                };
+
+                _context.DongGops.Add(dongGop);
+                await _context.SaveChangesAsync();
+            }
+
             return new HoaDonResponseDTO
             {
                 Id = hoaDon.Id,
@@ -70,6 +82,7 @@ namespace SmartCharityAPI.Repositories
                 ChiTiet = dto.ChiTiet
             };
         }
+
 
         public async Task<IEnumerable<HoaDonResponseDTO>> GetByUserAsync(int userId)
         {

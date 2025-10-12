@@ -24,10 +24,27 @@ namespace SmartCharityAPI.Repositories
                     Gia = x.Gia,
                     MoTa = x.MoTa,
                     AnhChinh = x.AnhChinh,
+                    LoaiId = x.LoaiId,
+                    TenLoai = x.Loai != null ? x.Loai.TenLoai : null
+                    
+                }).ToListAsync();
+        }
+        public async Task<IEnumerable<SanPhamDTO>> GetByCategory(int categoryId)
+        {
+            return await _context.SanPhams
+                .Include(x => x.Loai)
+                .Where(x => x.LoaiId == categoryId)
+                .Select(x => new SanPhamDTO
+                {
+                    Id = x.Id,
+                    TenSanPham = x.TenSanPham,
+                    Gia = x.Gia,
+                    MoTa = x.MoTa,
+                    AnhChinh = x.AnhChinh,
+                    LoaiId = x.LoaiId,
                     TenLoai = x.Loai != null ? x.Loai.TenLoai : null
                 }).ToListAsync();
         }
-
         public async Task<SanPhamDTO?> GetByIdAsync(int id)
         {
             return await _context.SanPhams
@@ -40,6 +57,7 @@ namespace SmartCharityAPI.Repositories
                     Gia = x.Gia,
                     MoTa = x.MoTa,
                     AnhChinh = x.AnhChinh,
+                    LoaiId = x.LoaiId,
                     TenLoai = x.Loai != null ? x.Loai.TenLoai : null
                 }).FirstOrDefaultAsync();
         }

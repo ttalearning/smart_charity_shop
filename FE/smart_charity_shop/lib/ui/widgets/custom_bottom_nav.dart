@@ -1,8 +1,11 @@
 // lib/widgets/custom_bottom_nav.dart
 import 'package:flutter/material.dart';
 import 'package:smart_charity_shop/theme/app_colors.dart';
+import 'package:smart_charity_shop/ui/screens/campaign_list_screen.dart';
+import 'package:smart_charity_shop/ui/screens/donate_history_screen.dart';
 import 'package:smart_charity_shop/ui/screens/home_screen.dart';
 import 'package:smart_charity_shop/ui/screens/marketplace_screen.dart';
+import 'package:smart_charity_shop/ui/screens/profile_screen.dart';
 import 'package:smart_charity_shop/ui/widgets/page_transition.dart';
 
 class CustomBottomNav extends StatelessWidget {
@@ -41,6 +44,18 @@ class CustomBottomNav extends StatelessWidget {
         Navigator.pushReplacement(
           context,
           pageTransition(const MarketplaceScreen()),
+        );
+        break;
+      case 2:
+        Navigator.pushReplacement(
+          context,
+          pageTransition(const CampaignListScreen()),
+        );
+        break;
+      case 3:
+        Navigator.pushReplacement(
+          context,
+          pageTransition(const ProfileScreen()),
         );
         break;
     }
@@ -95,7 +110,15 @@ class CustomBottomNav extends StatelessWidget {
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.storefront_rounded),
-                  label: "Tập luyện",
+                  label: "Mua Sắm",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.campaign_rounded),
+                  label: "Chiến dịch",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.person_rounded),
+                  label: "Cá nhân",
                 ),
               ],
             ),

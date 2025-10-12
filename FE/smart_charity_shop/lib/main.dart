@@ -1,18 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:smart_charity_shop/services/auth_service.dart';
 import 'package:smart_charity_shop/state/cart_provider.dart';
 import 'package:smart_charity_shop/ui/screens/auth/login_screen.dart';
 import 'package:smart_charity_shop/ui/screens/home_screen.dart';
+import 'package:smart_charity_shop/utils/momo_callback_handler.dart';
 import 'theme/app_theme.dart';
-import 'package:provider/provider.dart';
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   final cart = CartProvider();
   await cart.load();
+
   runApp(
     ChangeNotifierProvider(create: (_) => cart, child: const SmartCharityApp()),
   );
+
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    final ctx = navigatorKey.currentContext;
+    if (ctx != null) {
+      MomoCallbackHandler.initListener(ctx);
+    } else {
+      debugPrint("MoMo listener: context chưa sẵn sàng");
+    }
+  });
 }
 
 class SmartCharityApp extends StatelessWidget {
@@ -21,6 +35,7 @@ class SmartCharityApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       title: "Smart Charity Shop",
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
@@ -32,6 +47,7 @@ class SmartCharityApp extends StatelessWidget {
 
 class SplashRouter extends StatefulWidget {
   const SplashRouter({super.key});
+
   @override
   State<SplashRouter> createState() => _SplashRouterState();
 }
