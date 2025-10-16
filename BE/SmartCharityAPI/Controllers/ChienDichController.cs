@@ -30,24 +30,34 @@ namespace SmartCharityAPI.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             var cd = await _repo.GetByIdAsync(id);
-            return cd == null ? NotFound() : Ok(cd);
+            if (cd == null) return NotFound(new { message = "Không tìm thấy chiến dịch" });
+            return Ok(cd);
         }
-
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateChienDichDTO dto)
         {
-            var adminId = int.Parse(User.FindFirst("UserId")!.Value);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var adminId = int.Parse(User.FindFirstValue("UserId")!);
+
             var created = await _repo.CreateAsync(dto, adminId);
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
 
+ 
         [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] CreateChienDichDTO dto)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var ok = await _repo.UpdateAsync(id, dto);
-            return ok ? NoContent() : NotFound();
+            if (!ok) return NotFound(new { message = "Không tìm thấy chiến dịch cần cập nhật" });
+
+            return Ok(new { message = "Cập nhật thành công" });
         }
 
         [Authorize(Roles = "Admin")]
@@ -55,15 +65,9 @@ namespace SmartCharityAPI.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var ok = await _repo.DeleteAsync(id);
-            return ok ? NoContent() : NotFound();
-        }
+            if (!ok) return NotFound(new { message = "Không tìm thấy chiến dịch để xóa" });
 
-        [Authorize(Roles = "Admin")]
-        [HttpPost("{id}/images")]
-        public async Task<IActionResult> AddImages(int id, [FromBody] List<string> urls)
-        {
-            var ok = await _repo.AddImagesAsync(id, urls);
-            return ok ? Ok(new { message = "Đã thêm hình ảnh" }) : NotFound();
+            return Ok(new { message = "Xóa thành công" });
         }
     }
 }

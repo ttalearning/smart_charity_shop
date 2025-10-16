@@ -1,20 +1,24 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../configs/ApiConfig.dart';
+import '../configs/api_config.dart';
 import '../models/campaign_model.dart';
 
 class CampaignService {
   static Future<List<Campaign>> fetchAll() async {
-    final url = Uri.parse("${ApiConfig.baseUrl}/ChienDich");
-    final res = await http.get(url);
-
-    if (res.statusCode == 200) {
-      final List data = jsonDecode(res.body);
-      return data.map((e) => Campaign.fromJson(e)).toList();
-    } else {
-      throw Exception(
-        "Không tải được danh sách chiến dịch (${res.statusCode})",
+    try {
+      final response = await http.get(
+        Uri.parse('${ApiConfig.baseUrl}/ChienDich'),
       );
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(response.body);
+        return data.map((json) => Campaign.fromJson(json)).toList();
+      }
+      print('Error fetching campaigns: ${response.statusCode}');
+      return [];
+    } catch (e) {
+      print('Error fetching campaigns: $e');
+      return [];
     }
   }
 
@@ -24,71 +28,72 @@ class CampaignService {
     return all.take(4).toList();
   }
 
-  /// 🔵 Lấy chi tiết chiến dịch theo ID
-  static Future<Campaign> fetchById(int id) async {
-    final url = Uri.parse("${ApiConfig.baseUrl}/ChienDich/$id");
-    final res = await http.get(url);
+  static Future<Campaign?> fetchById(int id) async {
+    try {
+      final response = await http.get(
+        Uri.parse('${ApiConfig.baseUrl}/chiendich/$id'),
+      );
 
-    if (res.statusCode == 200) {
-      final data = jsonDecode(res.body);
-      return Campaign.fromJson(data);
-    } else {
-      throw Exception("Không tìm thấy chiến dịch #$id");
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        return Campaign.fromJson(data);
+      }
+      print('Error fetching campaign: ${response.statusCode}');
+      return null;
+    } catch (e) {
+      print('Error fetching campaign: $e');
+      return null;
     }
   }
 
-  /// 🔒 Admin - tạo chiến dịch
-  static Future<bool> create(Map<String, dynamic> dto, String token) async {
-    final url = Uri.parse("${ApiConfig.baseUrl}/ChienDich");
-    final res = await http.post(
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token',
-      },
-      body: jsonEncode(dto),
-    );
-    return res.statusCode == 201;
+  static Future<bool> create(Map<String, dynamic> data, String token) async {
+    try {
+      final response = await http.post(
+        Uri.parse('${ApiConfig.baseUrl}/chiendich'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: json.encode(data),
+      );
+      return response.statusCode == 201;
+    } catch (e) {
+      print('Error creating campaign: $e');
+      return false;
+    }
   }
 
-  /// 🔒 Admin - cập nhật
   static Future<bool> update(
     int id,
-    Map<String, dynamic> dto,
+    Map<String, dynamic> data,
     String token,
   ) async {
-    final url = Uri.parse("${ApiConfig.baseUrl}/ChienDich/$id");
-    final res = await http.put(
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token',
-      },
-      body: jsonEncode(dto),
-    );
-    return res.statusCode == 204;
+    try {
+      final response = await http.put(
+        Uri.parse('${ApiConfig.baseUrl}/chiendich/$id'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: json.encode(data),
+      );
+      return response.statusCode == 200;
+    } catch (e) {
+      print('Error updating campaign: $e');
+      return false;
+    }
   }
 
-  /// 🔒 Admin - xóa
   static Future<bool> delete(int id, String token) async {
-    final url = Uri.parse("${ApiConfig.baseUrl}/ChienDich/$id");
-    final res = await http.delete(
-      url,
-      headers: {'Authorization': 'Bearer $token'},
-    );
-    return res.statusCode == 204;
-  }
-
-  static Future<bool> addImages(int id, List<String> urls, String token) async {
-    final url = Uri.parse("${ApiConfig.baseUrl}/ChienDich/$id/images");
-    final res = await http.post(
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token',
-      },
-      body: jsonEncode(urls),
-    );
-    return res.statusCode == 200;
+    try {
+      final response = await http.delete(
+        Uri.parse('${ApiConfig.baseUrl}/chiendich/$id'),
+        headers: {'Authorization': 'Bearer $token'},
+      );
+      return response.statusCode == 200;
+    } catch (e) {
+      print('Error deleting campaign: $e');
+      return false;
+    }
   }
 }

@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '/../configs/ApiConfig.dart';
+import '../configs/api_config.dart';
 import '/../models/product_model.dart';
 
 class ProductService {
@@ -27,50 +27,80 @@ class ProductService {
     throw Exception('Không tải được theo loại (${res.statusCode})');
   }
 
-  /// 🔹 Thêm sản phẩm
-  static Future<bool> create(Map<String, dynamic> data) async {
+  static Future<bool> create(Map<String, dynamic> data, String token) async {
     final url = Uri.parse('${ApiConfig.baseUrl}/SanPham');
+
     final payload = {
       "tenSanPham": data["tenSanPham"],
       "gia": data["gia"],
       "moTa": data["moTa"],
       "anhChinh": data["anhChinh"],
       "loaiId": data["loaiId"],
+      "hinhAnhs":
+          (data["hinhAnhs"] as List<dynamic>?)
+              ?.map((url) => {"url": url, "isChinh": false})
+              .toList() ??
+          [],
     };
+
     final res = await http.post(
       url,
-      headers: {'Content-Type': 'application/json'},
+      headers: {
+        'Content-Type': 'application/json',
+        "Authorization": "Bearer $token",
+      },
       body: jsonEncode(payload),
     );
+
     return res.statusCode == 200 || res.statusCode == 201;
   }
 
-  /// 🔹 Cập nhật sản phẩm
-  static Future<bool> update(int id, Map<String, dynamic> data) async {
+  static Future<bool> update(
+    int id,
+    Map<String, dynamic> data,
+    String token,
+  ) async {
     final url = Uri.parse('${ApiConfig.baseUrl}/SanPham/$id');
+
     final payload = {
       "tenSanPham": data["tenSanPham"],
       "gia": data["gia"],
       "moTa": data["moTa"],
       "anhChinh": data["anhChinh"],
       "loaiId": data["loaiId"],
+      "hinhAnhs":
+          (data["hinhAnhs"] as List<dynamic>?)
+              ?.map((url) => {"url": url, "isChinh": false})
+              .toList() ??
+          [],
     };
+
     final res = await http.put(
       url,
-      headers: {'Content-Type': 'application/json'},
+      headers: {
+        'Content-Type': 'application/json',
+        "Authorization": "Bearer $token",
+      },
       body: jsonEncode(payload),
     );
-    return res.statusCode == 200;
+
+    return res.statusCode == 200 || res.statusCode == 204;
   }
 
-  /// 🔹 Xóa sản phẩm
-  static Future<bool> delete(int id) async {
+  static Future<bool> delete(int id, String token) async {
     final url = Uri.parse('${ApiConfig.baseUrl}/SanPham/$id');
-    final res = await http.delete(url);
-    return res.statusCode == 200;
+
+    final res = await http.delete(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    return res.statusCode == 200 || res.statusCode == 204;
   }
 
-  /// Tìm kiếm (nếu chưa có endpoint → filter client)
   static List<Product> searchLocal(List<Product> all, String q) {
     final query = q.toLowerCase();
     return all

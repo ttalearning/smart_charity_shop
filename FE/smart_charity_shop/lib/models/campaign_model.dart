@@ -9,10 +9,10 @@ class Campaign {
   final String? diaDiem;
   final DateTime? ngayBatDau;
   final DateTime? ngayKetThuc;
-  final List<String> hinhAnhPhu;
+  final List<String> hinhAnhs;
 
   double get progress =>
-      mucTieu > 0 ? (soTienHienTai / mucTieu).clamp(0, 1) : 0;
+      mucTieu > 0 ? (soTienHienTai / mucTieu).clamp(0.0, 1.0) : 0.0;
 
   Campaign({
     required this.id,
@@ -25,28 +25,28 @@ class Campaign {
     this.diaDiem,
     this.ngayBatDau,
     this.ngayKetThuc,
-    required this.hinhAnhPhu,
+    required this.hinhAnhs,
   });
 
   factory Campaign.fromJson(Map<String, dynamic> json) {
     return Campaign(
-      id: json['id'] ?? 0,
+      id: json['id'] as int,
       tenChienDich: json['tenChienDich'] ?? '',
       moTa: json['moTa'],
       hinhAnhChinh: json['hinhAnhChinh'],
-      mucTieu: (json['mucTieu'] ?? 0).toDouble(),
-      soTienHienTai: (json['soTienHienTai'] ?? 0).toDouble(),
+      mucTieu: (json['mucTieu'] as num?)?.toDouble() ?? 0,
+      soTienHienTai: (json['soTienHienTai'] as num?)?.toDouble() ?? 0,
       trangThai: json['trangThai'] ?? 'Đang diễn ra',
       diaDiem: json['diaDiem'],
       ngayBatDau: json['ngayBatDau'] != null
-          ? DateTime.tryParse(json['ngayBatDau'])
+          ? DateTime.parse(json['ngayBatDau'])
           : null,
       ngayKetThuc: json['ngayKetThuc'] != null
-          ? DateTime.tryParse(json['ngayKetThuc'])
+          ? DateTime.parse(json['ngayKetThuc'])
           : null,
-      hinhAnhPhu:
-          (json['hinhAnhPhu'] as List<dynamic>?)
-              ?.map((e) => e.toString())
+      hinhAnhs:
+          (json['hinhAnhs'] as List<dynamic>?)
+              ?.map((e) => e['url'] as String)
               .toList() ??
           [],
     );

@@ -14,26 +14,6 @@ class CustomBottomNav extends StatelessWidget {
 
   const CustomBottomNav({super.key, required this.currentIndex, this.onTap});
 
-  void _openChatBot(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      builder: (context) => SizedBox(
-        height: MediaQuery.of(context).size.height * 0.75,
-        child: const Center(
-          child: Text(
-            "🤖 SmartFit Coach Chatbot",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-          ),
-        ),
-      ),
-    );
-  }
-
   void _go(BuildContext context, int index) {
     if (index == currentIndex) return;
     switch (index) {
@@ -121,42 +101,6 @@ class CustomBottomNav extends StatelessWidget {
                   label: "Cá nhân",
                 ),
               ],
-            ),
-          ),
-
-          /// 🤖 Nút chatbot nổi ở CHÍNH GIỮA
-          Positioned(
-            top: -45, // trồi lên một chút như ảnh mẫu
-            left: 0,
-            right: 0,
-            child: Center(
-              child: GestureDetector(
-                onTap: () => _openChatBot(context),
-                child: Container(
-                  width: 62,
-                  height: 62,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: AppColors.primaryGradient,
-                    // viền trắng dày để tạo cảm giác "notch" tròn
-                    border: Border.all(color: Colors.white, width: 6),
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.background.withOpacity(0.35),
-                        blurRadius: 16,
-                        spreadRadius: 2,
-                      ),
-                    ],
-                  ),
-                  child: const Center(
-                    child: Icon(
-                      Icons.smart_toy_rounded,
-                      color: Colors.white,
-                      size: 30,
-                    ),
-                  ),
-                ),
-              ),
             ),
           ),
         ],

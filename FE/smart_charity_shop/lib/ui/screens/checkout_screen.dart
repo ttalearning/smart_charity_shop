@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smart_charity_shop/configs/api_config.dart';
 import 'package:smart_charity_shop/services/momo_service.dart';
 import 'package:smart_charity_shop/services/order_service.dart';
 import 'package:smart_charity_shop/services/campaign_service.dart';
@@ -366,7 +367,7 @@ class _CartLine extends StatelessWidget {
         leading: ClipRRect(
           borderRadius: BorderRadius.circular(8),
           child: Image.network(
-            item.product.anhChinh ?? "",
+            "${ApiConfig.imgUrl}${item.product.anhChinh}",
             width: 56,
             height: 56,
             fit: BoxFit.cover,

@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import '../configs/ApiConfig.dart';
+import '../configs/api_config.dart';
 import '../models/order_request.dart';
 
 class OrderService {
@@ -12,11 +12,14 @@ class OrderService {
   }) async {
     final prefs = await SharedPreferences.getInstance();
     final userId = prefs.getInt('user_id') ?? 0;
+    if (userId == null || userId == 0) {
+      print("-------------------------Lỗi: Không tìm thấy user ID hợp lệ.");
+      throw Exception("Lỗi: Không tìm thấy user ID hợp lệ.");
+    }
     final url = Uri.parse('${ApiConfig.baseUrl}/HoaDon/$userId');
 
-    final token = prefs.getString('auth_token');
+    final token = prefs.getString('jwt_token');
 
-    // Tạo body JSON và chèn trạng thái thanh toán nếu có
     final body = req.toJson();
     if (trangThaiThanhToan != null) {
       body['trangThaiThanhToan'] = trangThaiThanhToan;
@@ -40,7 +43,7 @@ class OrderService {
 
   static Future<Map<String, dynamic>> getOrderDetail(int id) async {
     final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('auth_token');
+    final token = prefs.getString('jwt_token');
     final userId = prefs.getInt('user_id') ?? 0;
 
     final url = Uri.parse('${ApiConfig.baseUrl}/HoaDon/$id/$userId');
@@ -65,7 +68,7 @@ class OrderService {
   static Future<List<dynamic>> fetchMyOrders() async {
     final prefs = await SharedPreferences.getInstance();
     final userId = prefs.getInt('user_id') ?? 0;
-    final token = prefs.getString('auth_token');
+    final token = prefs.getString('jwt_token');
 
     final url = Uri.parse('${ApiConfig.baseUrl}/HoaDon/user/$userId');
 

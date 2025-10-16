@@ -37,24 +37,23 @@ namespace SmartCharityAPI.Controllers
             return Ok(sp);
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([FromBody] SanPhamDTO dto)
         {
             var sp = await _repo.CreateAsync(dto);
             return CreatedAtAction(nameof(GetById), new { id = sp.Id }, sp);
         }
-
-        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(int id, [FromBody] SanPhamDTO dto)
         {
             var ok = await _repo.UpdateAsync(id, dto);
             return ok ? NoContent() : NotFound();
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var ok = await _repo.DeleteAsync(id);

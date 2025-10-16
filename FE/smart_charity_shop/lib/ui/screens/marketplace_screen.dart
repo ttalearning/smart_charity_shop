@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:smart_charity_shop/configs/api_config.dart';
 import 'package:smart_charity_shop/state/cart_provider.dart';
 import 'package:smart_charity_shop/ui/screens/cart_screen.dart';
 import 'package:smart_charity_shop/ui/widgets/custom_bottom_nav.dart';
@@ -353,7 +354,7 @@ class _ProductTile extends StatelessWidget {
               child: AspectRatio(
                 aspectRatio: 1.3,
                 child: Image.network(
-                  p.anhChinh ?? "",
+                  "${ApiConfig.imgUrl}${p.anhChinh!}",
                   fit: BoxFit.cover,
                   errorBuilder: (_, __, ___) => Container(
                     color: const Color(0xFFF2F2F2),

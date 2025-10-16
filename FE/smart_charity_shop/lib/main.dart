@@ -4,6 +4,7 @@ import 'package:smart_charity_shop/services/auth_service.dart';
 import 'package:smart_charity_shop/state/cart_provider.dart';
 import 'package:smart_charity_shop/ui/screens/auth/login_screen.dart';
 import 'package:smart_charity_shop/ui/screens/home_screen.dart';
+import 'package:smart_charity_shop/ui/screens/splash_screen.dart';
 import 'package:smart_charity_shop/utils/momo_callback_handler.dart';
 import 'theme/app_theme.dart';
 
@@ -40,7 +41,7 @@ class SmartCharityApp extends StatelessWidget {
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       debugShowCheckedModeBanner: false,
-      home: const LoginScreen(),
+      home: const SplashScreen(),
     );
   }
 }
@@ -61,12 +62,14 @@ class _SplashRouterState extends State<SplashRouter> {
 
   Future<void> _checkLogin() async {
     final loggedIn = await AuthService.isLoggedIn();
-    await Future.delayed(const Duration(milliseconds: 400));
-    if (!mounted) return;
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (_) => loggedIn ? const HomeScreen() : const LoginScreen(),
+    await Future.delayed(const Duration(milliseconds: 800));
+    Navigator.of(context).pushReplacement(
+      PageRouteBuilder(
+        pageBuilder: (_, __, ___) =>
+            loggedIn ? const HomeScreen() : const LoginScreen(),
+        transitionsBuilder: (_, anim, __, child) =>
+            FadeTransition(opacity: anim, child: child),
+        transitionDuration: const Duration(milliseconds: 400),
       ),
     );
   }

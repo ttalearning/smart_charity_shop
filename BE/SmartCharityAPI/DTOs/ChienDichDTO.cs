@@ -12,7 +12,7 @@
         public string? DiaDiem { get; set; }
         public DateTime? NgayBatDau { get; set; }
         public DateTime? NgayKetThuc { get; set; }
-        public List<string>? HinhAnhPhu { get; set; } = new();
+        public List<HinhAnhChienDichDTO>? HinhAnhs { get; set; }
     }
 
     public class CreateChienDichDTO
@@ -24,5 +24,7 @@
         public string? DiaDiem { get; set; }
         public DateTime? NgayBatDau { get; set; }
         public DateTime? NgayKetThuc { get; set; }
+
+        public List<HinhAnhChienDichDTO>? HinhAnhs { get; set; }
     }
 }

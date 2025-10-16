@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import '../configs/ApiConfig.dart';
+import '../configs/api_config.dart';
 import '../models/donation_model.dart';
 import '../models/top_donation_model.dart';
 
@@ -81,7 +81,7 @@ class DonationService {
 
       if (res.statusCode == 200) {
         final data = jsonDecode(res.body);
-        print("✅ Nhận ${data.length} donations");
+
         return data is List ? data : [];
       } else {
         print("🔴 Lỗi API DongGop/$userId: ${res.statusCode} - ${res.body}");

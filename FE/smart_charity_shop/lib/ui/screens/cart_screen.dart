@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:smart_charity_shop/configs/api_config.dart';
 import 'package:smart_charity_shop/ui/screens/checkout_screen.dart';
 import '/../state/cart_provider.dart';
 import '/../theme/app_colors.dart';
@@ -118,7 +119,7 @@ class _CartTile extends StatelessWidget {
               bottomLeft: Radius.circular(14),
             ),
             child: Image.network(
-              item.product.anhChinh ?? "",
+              "${ApiConfig.imgUrl}${item.product.anhChinh}",
               width: 90,
               height: 90,
               fit: BoxFit.cover,

@@ -22,7 +22,7 @@ android {
     defaultConfig {
         applicationId = "com.example.smart_charity_shop"
         minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
+        targetSdk = 34
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }

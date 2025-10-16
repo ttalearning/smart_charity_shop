@@ -1,17 +1,20 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:smart_charity_shop/configs/ApiConfig.dart';
+import 'package:smart_charity_shop/configs/api_config.dart';
 
 class AuthService {
   static Future<void> saveUserData(Map<String, dynamic> data) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('jwt_token', data['token'] ?? '');
-    await prefs.setString('user_name', data['hoTen'] ?? '');
-    await prefs.setInt('user_id', data['id'] ?? 0);
-    await prefs.setString('user_email', data['email'] ?? '');
-    await prefs.setString('user_role', data['vaiTro'] ?? '');
-    await prefs.setString('user_avatar', data['avatarUrl'] ?? '');
+    await prefs.setString('user_name', data['hoTen'] ?? data['HoTen'] ?? '');
+    await prefs.setInt('user_id', data['id'] ?? data['Id'] ?? 0);
+    await prefs.setString('user_email', data['email'] ?? data['Email'] ?? '');
+    await prefs.setString('user_role', data['vaiTro'] ?? data['VaiTro'] ?? '');
+    await prefs.setString(
+      'user_avatar',
+      data['avatarUrl'] ?? data['AvatarUrl'] ?? '',
+    );
   }
 
   static Future<bool> login(String email, String password) async {
@@ -35,7 +38,7 @@ class AuthService {
     required String password,
     required String role,
   }) async {
-    final url = Uri.parse("$ApiConfig/Auth/Register");
+    final url = Uri.parse("${ApiConfig.baseUrl}/Auth/Register");
     final res = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},
@@ -47,7 +50,6 @@ class AuthService {
       }),
     );
     if (res.statusCode == 200) {
-      await saveUserData(jsonDecode(res.body));
       return true;
     }
     return false;

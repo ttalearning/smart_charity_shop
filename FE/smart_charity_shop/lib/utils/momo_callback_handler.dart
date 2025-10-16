@@ -3,7 +3,7 @@ import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import '../configs/ApiConfig.dart';
+import '../configs/api_config.dart';
 import '../ui/screens/donate_success_screen.dart';
 import '../ui/screens/order_success_screen.dart';
 

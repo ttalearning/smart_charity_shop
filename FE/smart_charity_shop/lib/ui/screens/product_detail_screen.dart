@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_charity_shop/configs/api_config.dart';
 import 'package:smart_charity_shop/ui/screens/cart_screen.dart';
 import '/../theme/app_colors.dart';
 import '/../theme/app_text_styles.dart';
@@ -115,18 +116,97 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       body: ListView(
         physics: const BouncingScrollPhysics(),
         children: [
-          // Ảnh
-          AspectRatio(
-            aspectRatio: 1.3,
-            child: Image.network(
-              p.anhChinh ?? "",
-              fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) => Container(
-                color: const Color(0xFFF2F2F2),
-                child: const Icon(Icons.image_not_supported_rounded, size: 48),
-              ),
-            ),
+          // 🖼 Ảnh chính
+          StatefulBuilder(
+            builder: (context, setStateMain) {
+              String currentImage = p.anhChinh ?? "";
+              List<String> extraImages = p.hinhAnhs.map((h) => h.url).toList();
+
+              // Nếu có ảnh phụ, gộp tất cả vào list để tiện chọn
+              final allImages = [
+                if (p.anhChinh != null && p.anhChinh!.isNotEmpty) p.anhChinh!,
+                ...extraImages,
+              ];
+
+              // biến dùng để lưu ảnh hiện tại
+              String displayed = currentImage;
+
+              return Column(
+                children: [
+                  AspectRatio(
+                    aspectRatio: 1.2,
+                    child: Image.network(
+                      "${ApiConfig.imgUrl}$displayed",
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, __, ___) => Container(
+                        color: const Color(0xFFF2F2F2),
+                        child: const Icon(
+                          Icons.image_not_supported_rounded,
+                          size: 48,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+
+                  // 🟢 Dãy ảnh phụ (nếu có)
+                  if (allImages.length > 1)
+                    SizedBox(
+                      height: 80,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        itemCount: allImages.length,
+                        itemBuilder: (_, i) {
+                          final img = allImages[i];
+                          final isActive = img == displayed;
+                          return GestureDetector(
+                            onTap: () {
+                              setStateMain(() {
+                                displayed = img;
+                              });
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.only(right: 10),
+                              padding: isActive
+                                  ? const EdgeInsets.all(2)
+                                  : EdgeInsets.zero,
+                              decoration: BoxDecoration(
+                                border: isActive
+                                    ? Border.all(
+                                        color: AppColors.primary,
+                                        width: 2,
+                                      )
+                                    : null,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(6),
+                                child: Image.network(
+                                  "${ApiConfig.imgUrl}$img",
+                                  width: 70,
+                                  height: 70,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (_, __, ___) => Container(
+                                    color: const Color(0xFFE0E0E0),
+                                    width: 70,
+                                    height: 70,
+                                    child: const Icon(
+                                      Icons.broken_image_outlined,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                ],
+              );
+            },
           ),
+
           const SizedBox(height: 10),
 
           // Tiêu đề + giá + danh mục
@@ -159,7 +239,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             ),
           ),
 
-          // Seller (placeholder)
+          // Seller info
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Row(
@@ -183,7 +263,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             ),
           ),
 
-          // Banner 10% đóng góp
+          // Banner 10%
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Container(
@@ -215,7 +295,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     ),
                   ),
                   Text(
-                    _vnd(donate10),
+                    _vnd(p.gia * 0.1),
                     style: AppTextStyles.bodyBold.copyWith(
                       color: AppColors.secondary,
                     ),
@@ -238,7 +318,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             ),
           ],
 
-          // Sản phẩm liên quan
+          // Liên quan
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 6, 16, 8),
             child: Row(
@@ -307,7 +387,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               child: AspectRatio(
                                 aspectRatio: 1.2,
                                 child: Image.network(
-                                  rp.anhChinh ?? "",
+                                  "${ApiConfig.imgUrl}${rp.anhChinh!}",
                                   fit: BoxFit.cover,
                                   errorBuilder: (_, __, ___) => Container(
                                     color: const Color(0xFFF2F2F2),
@@ -348,7 +428,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               );
             },
           ),
-
           const SizedBox(height: 90),
         ],
       ),

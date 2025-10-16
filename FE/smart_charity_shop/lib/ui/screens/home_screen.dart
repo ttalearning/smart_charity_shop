@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_charity_shop/configs/api_config.dart';
 import 'package:smart_charity_shop/models/campaign_model.dart';
 import 'package:smart_charity_shop/models/category_model.dart';
 import 'package:smart_charity_shop/models/product_model.dart';
@@ -6,59 +7,110 @@ import 'package:smart_charity_shop/services/campaign_service.dart';
 import 'package:smart_charity_shop/services/category_service.dart';
 import 'package:smart_charity_shop/services/product_service.dart';
 import 'package:smart_charity_shop/ui/widgets/custom_bottom_nav.dart';
-import '/../theme/app_colors.dart';
-import '/../theme/app_text_styles.dart';
+import '../../theme/app_colors.dart';
+import '../../theme/app_text_styles.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
     return Scaffold(
       backgroundColor: AppColors.background,
+      bottomNavigationBar: const CustomBottomNav(currentIndex: 0),
       body: SafeArea(
-        child: SingleChildScrollView(
+        child: CustomScrollView(
           physics: const BouncingScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const _HeroBannerInspire(),
-
-              const SizedBox(height: 12),
-              const _StatsSection(),
-
-              const SizedBox(height: 12),
-              _SectionHeader(
-                title: "Chiến dịch nổi bật",
-                actionLabel: "Xem tất cả",
-                onTap: () {},
+          slivers: [
+            // 🔍 Search AppBar
+            SliverAppBar(
+              floating: true,
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              title: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.05),
+                      blurRadius: 10,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.search, color: Colors.grey),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        'Tìm kiếm chiến dịch...',
+                        style: AppTextStyles.body.copyWith(color: Colors.grey),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              const _CampaignHighlight(),
+              actions: [
+                Container(
+                  margin: const EdgeInsets.only(right: 16),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.05),
+                        blurRadius: 10,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: IconButton(
+                    icon: const Icon(Icons.notifications_outlined),
+                    onPressed: () {},
+                    color: AppColors.primary,
+                  ),
+                ),
+              ],
+            ),
 
-              const SizedBox(height: 20),
-              const _HeroBannerShop(),
+            // 📄 Nội dung chính
+            SliverToBoxAdapter(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  _HeroBannerInspire(),
+                  SizedBox(height: 16),
+                  _StatsSection(),
+                  SizedBox(height: 12),
+                  _SectionHeader(
+                    title: "Chiến dịch nổi bật",
+                    actionLabel: "Xem tất cả",
+                  ),
+                  _CampaignHighlight(),
+                  SizedBox(height: 20),
+                  _HeroBannerShop(),
+                  SizedBox(height: 20),
+                  _SectionHeader(title: "Danh mục nổi bật"),
+                  _CategoryList(),
+                  SizedBox(height: 20),
+                  _SectionHeader(title: "Sản phẩm mới"),
+                  _ProductList(),
+                  SizedBox(height: 20),
 
-              const SizedBox(height: 20),
-              _SectionHeader(title: "Danh mục nổi bật"),
-              const _CategoryList(),
-
-              const SizedBox(height: 20),
-              _SectionHeader(title: "Sản phẩm mới"),
-              const MyWidget(),
-
-              const SizedBox(height: 20),
-              const _ChatbotCard(),
-
-              const SizedBox(height: 24),
-              const _QuickActions(),
-              const SizedBox(height: 40),
-            ],
-          ),
+                  _QuickActions(),
+                  SizedBox(height: 40),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
-      bottomNavigationBar: const CustomBottomNav(currentIndex: 0),
     );
   }
 }
@@ -72,55 +124,65 @@ class _HeroBannerInspire extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 200,
+      height: 230,
       margin: const EdgeInsets.all(20),
-      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        gradient: AppColors.primaryGradient,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: AppColors.softShadow,
+        borderRadius: BorderRadius.circular(24),
+        image: const DecorationImage(
+          image: NetworkImage(
+            'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=800',
+          ),
+          fit: BoxFit.cover,
+        ),
       ),
-      child: Stack(
-        children: [
-          Positioned(
-            right: 10,
-            bottom: 0,
-            child: Opacity(
-              opacity: 0.15,
-              child: Icon(
-                Icons.favorite_rounded,
-                size: 180,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(24),
+          gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [
+              AppColors.primary.withOpacity(0.85),
+              AppColors.tertiary.withOpacity(0.9),
+            ],
+          ),
+        ),
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Spacer(),
+            Text(
+              "Chung tay vì cộng đồng 💚",
+              style: AppTextStyles.h1.copyWith(
                 color: Colors.white,
+                fontSize: 30,
               ),
             ),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Lan tỏa yêu thương 💚",
-                style: AppTextStyles.h2.copyWith(color: Colors.white),
+            const SizedBox(height: 6),
+            Text(
+              "Minh bạch – Uy tín – Tận tâm",
+              style: AppTextStyles.body.copyWith(
+                color: Colors.white.withOpacity(0.9),
               ),
-              const SizedBox(height: 6),
-              Text(
-                "Gây quỹ dễ dàng – Minh bạch – Uy tín",
-                style: AppTextStyles.body.copyWith(color: Colors.white70),
-              ),
-              const Spacer(),
-              ElevatedButton(
+            ),
+            const SizedBox(height: 2),
+            Center(
+              child: ElevatedButton.icon(
                 onPressed: () {},
+                icon: const Icon(Icons.visibility_rounded, size: 10),
+                label: const Text("Xem chiến dịch"),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
                   foregroundColor: AppColors.primary,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(14),
                   ),
                 ),
-                child: const Text("Xem chiến dịch"),
               ),
-            ],
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -135,16 +197,23 @@ class _StatsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final stats = [
-      {"icon": Icons.campaign_rounded, "value": "42", "label": "Chiến dịch"},
+      {
+        "icon": Icons.campaign_rounded,
+        "value": "42",
+        "label": "Chiến dịch",
+        "color": AppColors.primary,
+      },
       {
         "icon": Icons.volunteer_activism_rounded,
         "value": "₫1.2T",
         "label": "Đã quyên góp",
+        "color": AppColors.secondary,
       },
       {
         "icon": Icons.people_alt_rounded,
         "value": "5,432",
         "label": "Người tham gia",
+        "color": AppColors.tertiary,
       },
     ];
 
@@ -154,32 +223,43 @@ class _StatsSection extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: stats.map((s) {
           return Expanded(
-            child: Container(
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
               margin: const EdgeInsets.symmetric(horizontal: 4),
-              padding: const EdgeInsets.symmetric(vertical: 14),
+              padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(14),
-                boxShadow: AppColors.softShadow,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: (s["color"] as Color).withOpacity(0.1),
+                    blurRadius: 20,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
               child: Column(
                 children: [
-                  Icon(
-                    s["icon"] as IconData,
-                    color: AppColors.primary,
-                    size: 28,
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    s["value"] as String,
-                    style: AppTextStyles.h2.copyWith(
-                      color: AppColors.primary,
-                      fontWeight: FontWeight.w700,
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: (s["color"] as Color).withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Icon(
+                      s["icon"] as IconData,
+                      color: s["color"] as Color,
+                      size: 24,
                     ),
                   ),
+                  const SizedBox(height: 12),
+                  Text(s["value"] as String, style: AppTextStyles.h2),
+                  const SizedBox(height: 4),
                   Text(
                     s["label"] as String,
-                    style: AppTextStyles.caption.copyWith(color: Colors.grey),
+                    style: AppTextStyles.caption.copyWith(
+                      color: Colors.grey[600],
+                    ),
                   ),
                 ],
               ),
@@ -195,14 +275,15 @@ class _StatsSection extends StatelessWidget {
 // 🎯 Chiến dịch nổi bật
 //
 class _CampaignHighlight extends StatefulWidget {
-  const _CampaignHighlight({super.key});
+  const _CampaignHighlight();
 
   @override
-  State<_CampaignHighlight> createState() => __CampaignHighlightState();
+  State<_CampaignHighlight> createState() => _CampaignHighlightState();
 }
 
-class __CampaignHighlightState extends State<_CampaignHighlight> {
+class _CampaignHighlightState extends State<_CampaignHighlight> {
   late Future<List<Campaign>> _campaignsFuture;
+
   @override
   void initState() {
     super.initState();
@@ -217,20 +298,14 @@ class __CampaignHighlightState extends State<_CampaignHighlight> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
-          return Center(
-            child: Text(
-              'Lỗi khi tải dữ liệu: ${snapshot.error}',
-              style: AppTextStyles.caption,
-            ),
-          );
+          return Center(child: Text('Lỗi khi tải dữ liệu: ${snapshot.error}'));
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
           return const Center(child: Text('Không có chiến dịch nào nổi bật.'));
         }
 
         final campaigns = snapshot.data!;
-
         return SizedBox(
-          height: 240,
+          height: 230,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -253,29 +328,27 @@ class __CampaignHighlightState extends State<_CampaignHighlight> {
                         top: Radius.circular(16),
                       ),
                       child: Image.network(
-                        c.hinhAnhChinh ?? 'https://picsum.photos/400/300',
+                        c.hinhAnhChinh != null
+                            ? "${ApiConfig.imgUrl}${c.hinhAnhChinh}"
+                            : 'https://picsum.photos/400/300',
                         height: 110,
                         width: double.infinity,
                         fit: BoxFit.cover,
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 8,
-                      ),
+                      padding: const EdgeInsets.all(12),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(c.tenChienDich, style: AppTextStyles.bodyBold),
                           const SizedBox(height: 4),
                           Text(
-                            c.moTa ?? 'kh có',
+                            c.moTa ?? 'Không có mô tả',
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                            style: AppTextStyles.caption,
                           ),
-                          const SizedBox(height: 6),
+                          const SizedBox(height: 8),
                           ClipRRect(
                             borderRadius: BorderRadius.circular(6),
                             child: LinearProgressIndicator(
@@ -302,7 +375,7 @@ class __CampaignHighlightState extends State<_CampaignHighlight> {
 }
 
 //
-// 🛍️ HERO BANNER #2: Mua sắm tử tế
+// 🛍️ HERO BANNER #2
 //
 class _HeroBannerShop extends StatelessWidget {
   const _HeroBannerShop();
@@ -310,9 +383,9 @@ class _HeroBannerShop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 160,
+      height: 180,
       margin: const EdgeInsets.symmetric(horizontal: 20),
-      padding: const EdgeInsets.all(15),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: AppColors.secondary.withOpacity(0.1),
         borderRadius: BorderRadius.circular(20),
@@ -330,10 +403,8 @@ class _HeroBannerShop extends StatelessWidget {
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  "Mỗi đơn hàng đều đóng góp 10% vào quỹ thiện nguyện.",
-                  style: AppTextStyles.body.copyWith(
-                    color: Colors.grey.shade700,
-                  ),
+                  "10% mỗi đơn hàng được trích vào quỹ thiện nguyện.",
+                  style: AppTextStyles.body.copyWith(color: Colors.grey[700]),
                 ),
                 const Spacer(),
                 TextButton(
@@ -345,7 +416,7 @@ class _HeroBannerShop extends StatelessWidget {
           ),
           const Icon(
             Icons.volunteer_activism_rounded,
-            size: 70,
+            size: 64,
             color: AppColors.secondary,
           ),
         ],
@@ -354,59 +425,60 @@ class _HeroBannerShop extends StatelessWidget {
   }
 }
 
+//
+// 🧩 Danh mục
+//
 class _CategoryList extends StatefulWidget {
-  const _CategoryList({super.key});
+  const _CategoryList();
 
   @override
-  State<_CategoryList> createState() => __CategoryListState();
+  State<_CategoryList> createState() => _CategoryListState();
 }
 
-class __CategoryListState extends State<_CategoryList> {
-  late Future<List<Category>> _categorys;
+class _CategoryListState extends State<_CategoryList> {
+  late Future<List<Category>> _categories;
 
+  @override
   void initState() {
     super.initState();
-    _categorys = CategoryService.fetchAll();
+    _categories = CategoryService.fetchAll();
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Category>>(
-      future: _categorys,
+      future: _categories,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
-          return Center(
-            child: Text(
-              'Lỗi khi tải dữ liệu: ${snapshot.error}',
-              style: AppTextStyles.caption,
-            ),
-          );
+          return Center(child: Text('Lỗi: ${snapshot.error}'));
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
           return const Center(child: Text('Không có danh mục nào.'));
         }
 
-        final categorys = snapshot.data!;
-
+        final categories = snapshot.data!;
         return SizedBox(
           height: 100,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            itemCount: categorys.length,
+            itemCount: categories.length,
             separatorBuilder: (_, __) => const SizedBox(width: 12),
             itemBuilder: (_, i) {
-              final item = categorys[i];
+              final item = categories[i];
               return Column(
                 children: [
                   CircleAvatar(
                     radius: 32,
                     backgroundColor: AppColors.primary.withOpacity(0.1),
-                    child: Icon(Icons.checkroom, color: AppColors.primary),
+                    child: const Icon(
+                      Icons.category_rounded,
+                      color: AppColors.primary,
+                    ),
                   ),
                   const SizedBox(height: 6),
-                  Text(item.tenLoai as String, style: AppTextStyles.caption),
+                  Text(item.tenLoai ?? '', style: AppTextStyles.caption),
                 ],
               );
             },
@@ -420,14 +492,14 @@ class __CategoryListState extends State<_CategoryList> {
 //
 // 🛒 Sản phẩm mới
 //
-class MyWidget extends StatefulWidget {
-  const MyWidget({super.key});
+class _ProductList extends StatefulWidget {
+  const _ProductList();
 
   @override
-  State<MyWidget> createState() => _MyWidgetState();
+  State<_ProductList> createState() => _ProductListState();
 }
 
-class _MyWidgetState extends State<MyWidget> {
+class _ProductListState extends State<_ProductList> {
   late Future<List<Product>> _productsFuture;
 
   @override
@@ -444,18 +516,12 @@ class _MyWidgetState extends State<MyWidget> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
-          return Center(
-            child: Text(
-              'Lỗi khi tải dữ liệu: ${snapshot.error}',
-              style: AppTextStyles.caption,
-            ),
-          );
+          return Center(child: Text('Lỗi: ${snapshot.error}'));
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Center(child: Text('Không có sản phẩm nào.'));
+          return const Center(child: Text('Không có sản phẩm.'));
         }
 
         final products = snapshot.data!;
-
         return SizedBox(
           height: 250,
           child: ListView.builder(
@@ -480,32 +546,28 @@ class _MyWidgetState extends State<MyWidget> {
                         top: Radius.circular(16),
                       ),
                       child: Image.network(
-                        item.anhChinh ?? '', // tránh null
+                        item.anhChinh ?? '',
                         height: 130,
                         width: double.infinity,
                         fit: BoxFit.cover,
-                        errorBuilder: (_, __, ___) => const Icon(Icons.image),
+                        errorBuilder: (_, __, ___) =>
+                            const Icon(Icons.image, size: 60),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 8,
-                      ),
+                      padding: const EdgeInsets.all(12),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             item.tenSanPham ?? '',
                             style: AppTextStyles.bodyBold,
-                            overflow: TextOverflow.ellipsis,
                           ),
                           const SizedBox(height: 4),
                           Text(
                             "${item.gia ?? 0}₫",
                             style: AppTextStyles.body.copyWith(
                               color: AppColors.primary,
-                              fontWeight: FontWeight.w600,
                             ),
                           ),
                         ],
@@ -522,118 +584,6 @@ class _MyWidgetState extends State<MyWidget> {
   }
 }
 
-class _ProductCarousel extends StatelessWidget {
-  const _ProductCarousel();
-
-  @override
-  Widget build(BuildContext context) {
-    final items = List.generate(
-      5,
-      (i) => {
-        "title": "Sản phẩm #$i",
-        "price": 250000 + (i * 10000),
-        "image": "https://picsum.photos/seed/item$i/400/300",
-      },
-    );
-
-    return SizedBox(
-      height: 250,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        itemCount: items.length,
-        itemBuilder: (_, i) {
-          final item = items[i];
-          return Container(
-            width: 180,
-            margin: const EdgeInsets.only(right: 16),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: AppColors.softShadow,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ClipRRect(
-                  borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(16),
-                  ),
-                  child: Image.network(
-                    item["image"] as String,
-                    height: 130,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 8,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        item["title"] as String,
-                        style: AppTextStyles.bodyBold,
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        "${item["price"]}₫",
-                        style: AppTextStyles.body.copyWith(
-                          color: AppColors.primary,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
-
-//
-// 🤖 Chatbot Card
-//
-class _ChatbotCard extends StatelessWidget {
-  const _ChatbotCard();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppColors.primary.withOpacity(0.05),
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: AppColors.softShadow,
-      ),
-      child: Row(
-        children: [
-          CircleAvatar(
-            radius: 28,
-            backgroundColor: AppColors.primary.withOpacity(0.15),
-            child: const Icon(Icons.chat_rounded, color: AppColors.primary),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Text(
-              "Trò chuyện với SmartBot 🤖\nHỏi nhanh về chiến dịch, hướng dẫn sử dụng, hoặc tóm tắt thông tin.",
-              style: AppTextStyles.body,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 //
 // ⚡ Quick Actions
 //
@@ -646,7 +596,6 @@ class _QuickActions extends StatelessWidget {
       {"icon": Icons.shopping_bag_rounded, "label": "Mua hàng"},
       {"icon": Icons.volunteer_activism_rounded, "label": "Gây quỹ"},
       {"icon": Icons.campaign_rounded, "label": "Chiến dịch"},
-      {"icon": Icons.smart_toy_rounded, "label": "Chatbot"},
     ];
 
     return Padding(
@@ -657,7 +606,6 @@ class _QuickActions extends StatelessWidget {
         runSpacing: 16,
         children: actions.map((a) {
           return Column(
-            mainAxisSize: MainAxisSize.min,
             children: [
               CircleAvatar(
                 radius: 30,
@@ -675,7 +623,7 @@ class _QuickActions extends StatelessWidget {
 }
 
 //
-// 🏷️ Section Header helper
+// 🏷️ Section Header
 //
 class _SectionHeader extends StatelessWidget {
   final String title;
@@ -699,7 +647,6 @@ class _SectionHeader extends StatelessWidget {
                 actionLabel!,
                 style: AppTextStyles.bodyBold.copyWith(
                   color: AppColors.primary,
-                  fontSize: 14,
                 ),
               ),
             ),

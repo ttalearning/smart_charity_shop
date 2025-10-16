@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:smart_charity_shop/services/donation_service.dart';
 import 'package:smart_charity_shop/ui/widgets/custom_bottom_nav.dart';
 
-import '../../configs/ApiConfig.dart';
+import '../../configs/api_config.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_text_styles.dart';
 

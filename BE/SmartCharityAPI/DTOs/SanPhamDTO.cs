@@ -9,5 +9,7 @@
         public string? AnhChinh { get; set; }
         public int LoaiId { get; set; }
         public string? TenLoai { get; set; }
+
+        public List<HinhAnhSanPhamDTO>? HinhAnhs { get; set; }
     }
 }

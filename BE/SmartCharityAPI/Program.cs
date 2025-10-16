@@ -5,7 +5,6 @@ using Microsoft.OpenApi.Models;
 using SmartCharityAPI.Interfaces;
 using SmartCharityAPI.Models;
 using SmartCharityAPI.Repositories;
-using SmartCharityAPI.Repositories.SmartCharityAPI.Repositories;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -63,13 +62,13 @@ builder.Services.AddSwaggerGen(c =>
 
 
 var app = builder.Build();
-
+app.UseStaticFiles();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+}app.UseStaticFiles();
 
 app.UseAuthorization();
 

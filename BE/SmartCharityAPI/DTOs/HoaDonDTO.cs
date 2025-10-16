@@ -3,9 +3,7 @@ using System.Collections.Generic;
 
 namespace SmartCharityAPI.DTOs
 {
-    // ================================
-    // Request DTO
-    // ================================
+
     public class HoaDonRequestDTO
     {
         public int NguoiDungId { get; set; }                     // Người dùng mua                  // Dành cho donate
@@ -22,16 +20,14 @@ namespace SmartCharityAPI.DTOs
 
         public List<ChiTietHoaDonDTO> ChiTiet { get; set; } = new();
     }
-
-    // ================================
-    // Chi tiết đơn hàng
-    // ================================
     public class ChiTietHoaDonDTO
     {
         public int SanPhamId { get; set; }
         public string? TenSanPham { get; set; }
         public int SoLuong { get; set; }
         public decimal GiaLucBan { get; set; }
+
+        public string? AnhChinh { get; set; }
         public decimal ThanhTien => Math.Round(GiaLucBan * SoLuong, 2);
     }
 

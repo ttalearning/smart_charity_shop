@@ -9,6 +9,5 @@ namespace SmartCharityAPI.Repositories
         Task<ChienDichDTO> CreateAsync(CreateChienDichDTO dto, int adminId);
         Task<bool> UpdateAsync(int id, CreateChienDichDTO dto);
         Task<bool> DeleteAsync(int id);
-        Task<bool> AddImagesAsync(int chienDichId, List<string> imageUrls);
     }
 }

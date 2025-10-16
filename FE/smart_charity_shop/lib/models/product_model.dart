@@ -6,6 +6,7 @@ class Product {
   final String? anhChinh;
   final int loaiId;
   final String? tenLoai;
+  final List<ProductImage> hinhAnhs; // <== sửa kiểu
 
   Product({
     required this.id,
@@ -15,9 +16,12 @@ class Product {
     this.anhChinh,
     required this.loaiId,
     this.tenLoai,
+    this.hinhAnhs = const [],
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
+    final List<dynamic> imagesJson = json['hinhAnhs'] ?? [];
+
     return Product(
       id: json['id'] ?? 0,
       tenSanPham: json['tenSanPham'] ?? '',
@@ -26,17 +30,30 @@ class Product {
       anhChinh: json['anhChinh'],
       loaiId: json['loaiId'] ?? 0,
       tenLoai: json['tenLoai'],
+      hinhAnhs: imagesJson.map((e) => ProductImage.fromJson(e)).toList(),
     );
   }
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'tenSanPham': tenSanPham,
-      'gia': gia,
-      'moTa': moTa,
-      'anhChinh': anhChinh,
-      'loaiId': loaiId,
-      'tenLoai': tenLoai,
-    };
+}
+
+class ProductImage {
+  final int id;
+  final String url;
+  final int sanPhamId;
+  final bool isChinh;
+
+  ProductImage({
+    required this.id,
+    required this.url,
+    required this.sanPhamId,
+    required this.isChinh,
+  });
+
+  factory ProductImage.fromJson(Map<String, dynamic> json) {
+    return ProductImage(
+      id: json['id'] ?? 0,
+      url: json['url'] ?? '',
+      sanPhamId: json['sanPhamId'] ?? 0,
+      isChinh: json['isChinh'] ?? false,
+    );
   }
 }

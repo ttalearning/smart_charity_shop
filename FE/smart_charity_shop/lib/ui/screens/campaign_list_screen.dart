@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:smart_charity_shop/configs/api_config.dart';
 import 'package:smart_charity_shop/models/campaign_model.dart';
 import 'package:smart_charity_shop/services/campaign_service.dart';
 import 'package:smart_charity_shop/ui/screens/campaign_detail_screen.dart';
+import 'package:smart_charity_shop/ui/screens/donate_screen.dart';
 import 'package:smart_charity_shop/ui/widgets/custom_bottom_nav.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_text_styles.dart';
@@ -190,7 +192,7 @@ class _CampaignListScreenState extends State<CampaignListScreen> {
           ClipRRect(
             borderRadius: const BorderRadius.vertical(top: Radius.circular(14)),
             child: Image.network(
-              c.hinhAnhChinh ??
+              "${ApiConfig.imgUrl}${c.hinhAnhChinh}" ??
                   "https://picsum.photos/seed/campaign${c.id}/400/250",
               height: 180,
               width: double.infinity,
@@ -260,12 +262,10 @@ class _CampaignListScreenState extends State<CampaignListScreen> {
                         const SizedBox(width: 8),
                         ElevatedButton.icon(
                           onPressed: () {
-                            // TODO: Chuyển sang trang donate (bạn sẽ thêm sau)
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text(
-                                  "Tính năng đóng góp sẽ được cập nhật!",
-                                ),
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => DonateScreen(campaignId: c.id),
                               ),
                             );
                           },

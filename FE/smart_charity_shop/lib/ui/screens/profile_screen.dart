@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smart_charity_shop/ui/screens/admin/admin_home_screen.dart';
 import 'package:smart_charity_shop/ui/screens/auth/login_screen.dart';
 import 'package:smart_charity_shop/ui/screens/order_detail_screen.dart';
 import 'package:smart_charity_shop/ui/widgets/custom_bottom_nav.dart';
@@ -19,6 +20,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   String? _userName;
+  String? _role;
   String? _email;
   List<dynamic> _orders = [];
   List<dynamic> _donations = [];
@@ -40,13 +42,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final userId = prefs.getInt('user_id') ?? 0;
     final orders = await OrderService.fetchMyOrders();
     final donations = await DonationService.fetchMyDonations(userId);
-
+    final role = prefs.getString('user_role') ?? "User";
     setState(() {
       _userName = name;
       _email = email;
       _orders = orders;
       _donations = donations;
       _loading = false;
+      _role = role;
       _visibleOrderCount = 5;
       _visibleDonationCount = 5;
     });
@@ -90,7 +93,44 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     title: "Đổi mật khẩu",
                     onTap: _showChangePasswordDialog,
                   ),
-
+                  const SizedBox(height: 20),
+                  if (_role == "Admin") ...[
+                    const SizedBox(height: 20),
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const AdminHomeScreen(),
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.admin_panel_settings_rounded),
+                      label: const Text("Vào trang quản trị"),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                    ),
+                  ],
+                  const SizedBox(height: 30),
+                  ElevatedButton.icon(
+                    onPressed: _logout,
+                    icon: const Icon(Icons.logout_rounded),
+                    label: const Text("Đăng xuất"),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.redAccent,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  ),
                   // -----------------------
                   // ĐƠN HÀNG
                   // -----------------------
@@ -188,21 +228,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                           ],
                         ),
-
-                  const SizedBox(height: 30),
-                  ElevatedButton.icon(
-                    onPressed: _logout,
-                    icon: const Icon(Icons.logout_rounded),
-                    label: const Text("Đăng xuất"),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.redAccent,
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ),

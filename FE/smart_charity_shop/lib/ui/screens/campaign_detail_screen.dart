@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:smart_charity_shop/configs/api_config.dart';
 import 'package:smart_charity_shop/models/campaign_model.dart';
 import 'package:smart_charity_shop/models/donation_model.dart';
 import 'package:smart_charity_shop/services/campaign_service.dart';
 import 'package:smart_charity_shop/services/donation_service.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_text_styles.dart';
-import 'donate_screen.dart'; // 👉 bạn sẽ tạo file này sau
+import 'donate_screen.dart';
 
 class CampaignDetailScreen extends StatefulWidget {
   final int campaignId;
@@ -16,7 +17,7 @@ class CampaignDetailScreen extends StatefulWidget {
 }
 
 class _CampaignDetailScreenState extends State<CampaignDetailScreen> {
-  late Future<Campaign> _future;
+  late Future<Campaign?> _future;
   String? _currentMainImage;
 
   @override
@@ -37,7 +38,7 @@ class _CampaignDetailScreenState extends State<CampaignDetailScreen> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(16),
               child: Image.network(
-                imageUrl,
+                "${ApiConfig.imgUrl}${imageUrl ?? ''}",
                 fit: BoxFit.contain,
                 errorBuilder: (_, __, ___) =>
                     const Icon(Icons.image_not_supported, size: 100),
@@ -58,7 +59,7 @@ class _CampaignDetailScreenState extends State<CampaignDetailScreen> {
         backgroundColor: AppColors.primary,
         foregroundColor: Colors.white,
       ),
-      body: FutureBuilder<Campaign>(
+      body: FutureBuilder<Campaign?>(
         future: _future,
         builder: (context, snap) {
           if (snap.connectionState == ConnectionState.waiting) {
@@ -68,7 +69,11 @@ class _CampaignDetailScreenState extends State<CampaignDetailScreen> {
             return Center(child: Text("Lỗi tải dữ liệu: ${snap.error}"));
           }
 
-          final c = snap.data!;
+          final c = snap.data;
+          if (c == null) {
+            return const Center(child: Text("Không tìm thấy chiến dịch"));
+          }
+
           _currentMainImage ??= c.hinhAnhChinh;
 
           return ListView(
@@ -84,7 +89,7 @@ class _CampaignDetailScreenState extends State<CampaignDetailScreen> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(14),
                   child: Image.network(
-                    _currentMainImage ??
+                    "${ApiConfig.imgUrl}${_currentMainImage ?? ''}" ??
                         "https://picsum.photos/seed/campaign${c.id}/400/250",
                     height: 220,
                     fit: BoxFit.cover,
@@ -101,13 +106,14 @@ class _CampaignDetailScreenState extends State<CampaignDetailScreen> {
               // Tên + mô tả
               Text(c.tenChienDich, style: AppTextStyles.h2),
               const SizedBox(height: 6),
-              if (c.diaDiem != null)
+              if (c.diaDiem != null && c.diaDiem!.isNotEmpty)
                 Text(
                   "Địa điểm: ${c.diaDiem}",
                   style: AppTextStyles.caption.copyWith(color: Colors.grey),
                 ),
               const SizedBox(height: 8),
 
+              // Thanh tiến độ
               LinearProgressIndicator(
                 value: c.progress,
                 color: AppColors.primary,
@@ -128,20 +134,18 @@ class _CampaignDetailScreenState extends State<CampaignDetailScreen> {
               const SizedBox(height: 16),
 
               // Ảnh phụ
-              if (c.hinhAnhPhu.isNotEmpty) ...[
+              if (c.hinhAnhs.isNotEmpty) ...[
                 Text("Hình ảnh hoạt động", style: AppTextStyles.h3),
                 const SizedBox(height: 8),
                 SizedBox(
                   height: 120,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: c.hinhAnhPhu.length,
+                    itemCount: c.hinhAnhs.length,
                     itemBuilder: (_, i) {
-                      final url = c.hinhAnhPhu[i];
+                      final url = c.hinhAnhs[i];
                       return GestureDetector(
-                        onTap: () {
-                          setState(() => _currentMainImage = url);
-                        },
+                        onTap: () => setState(() => _currentMainImage = url),
                         onLongPress: () => _showFullImage(url),
                         child: Container(
                           width: 160,
@@ -158,7 +162,7 @@ class _CampaignDetailScreenState extends State<CampaignDetailScreen> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(12),
                             child: Image.network(
-                              url,
+                              "${ApiConfig.imgUrl}${url ?? ''}",
                               fit: BoxFit.cover,
                               errorBuilder: (_, __, ___) => Container(
                                 color: const Color(0xFFF2F2F2),

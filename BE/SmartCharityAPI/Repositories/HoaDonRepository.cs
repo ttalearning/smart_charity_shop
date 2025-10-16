@@ -106,8 +106,10 @@ namespace SmartCharityAPI.Repositories
         {
             var h = await _context.HoaDons
                 .Include(hd => hd.ChiTietHoaDons)
+                    .ThenInclude(ct => ct.SanPham)
                 .Where(hd => hd.Id == id && hd.NguoiDungId == userId)
                 .FirstOrDefaultAsync();
+
 
             if (h == null) return null;
 
@@ -123,9 +125,13 @@ namespace SmartCharityAPI.Repositories
                 ChiTiet = h.ChiTietHoaDons.Select(c => new ChiTietHoaDonDTO
                 {
                     SanPhamId = c.SanPhamId,
+                    TenSanPham = c.SanPham?.TenSanPham,
                     SoLuong = c.SoLuong,
-                    GiaLucBan = c.GiaLucBan
+                    AnhChinh = c.SanPham?.AnhChinh,
+                    
+                    GiaLucBan = c.GiaLucBan,
                 }).ToList()
+
             };
         }
     }

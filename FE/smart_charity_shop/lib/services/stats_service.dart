@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../configs/ApiConfig.dart';
+import '../configs/api_config.dart';
 import '../models/product_model.dart';
 
 class SanPhamService {

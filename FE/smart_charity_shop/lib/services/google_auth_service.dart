@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:smart_charity_shop/configs/ApiConfig.dart';
+import 'package:smart_charity_shop/configs/api_config.dart';
 import 'auth_service.dart';
 
 class GoogleAuthService {
