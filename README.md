@@ -1,104 +1,135 @@
 # Smart Charity Shop
 
-Một nền tảng quản lý cửa hàng từ thiện — hướng dẫn cài đặt và chạy local cho Backend (C#/.NET) và Frontend (Flutter/Dart). README này không sử dụng Docker và bao gồm hướng dẫn chạy file SmartCharityShopDB.sql cùng cách scaffold model từ database.
+Một nền tảng quản lý cửa hàng từ thiện (charity shop) với Backend (C# / ASP.NET Core) + Frontend (Flutter).  
+README này hướng dẫn cách cài đặt & chạy local cho cả hai phần, bao gồm cả khởi tạo database, scaffold model từ DB, và gợi ý CI (GitHub Actions).
 
-----
+---
 
-📌 Tóm tắt nhanh
-- Ngôn ngữ chính: Dart (Flutter), HTML, C#
-- Mục tiêu: hướng dẫn cài đặt, khởi tạo database (SQL file), scaffold model, và một mẫu pipeline CI (GitHub Actions).
+## 🚀 Tổng quan
 
-🔧 Yêu cầu
-- Git
-- .NET SDK 7+
-- Flutter SDK
-- SQL Server (ví dụ: \\.\SQLEXPRESS)
+- **Ngôn ngữ / công nghệ chính**:  
+  – Backend: C# / .NET 7+  
+  – Frontend: Flutter / Dart  
+- **Mục tiêu**:  
+  1. Quản lý sản phẩm, đơn hàng, người dùng cho một cửa hàng từ thiện  
+  2. Hỗ trợ chạy local (backend + frontend) từ mã nguồn + database mẫu  
+  3. Mẫu pipeline CI để tự động build & test  
 
-🗂 Cấu trúc thư mục (ví dụ)
-- backend/                → mã nguồn C# (.sln, .csproj)
-- frontend/flutter_app/   → Flutter app (pubspec.yaml)
-- sql/                    → SmartCharityShopDB.sql (file khởi tạo DB)
-- web/                    → HTML tĩnh (nếu có)
+---
 
-----
+## 🔧 Yêu cầu môi trường
 
-⚙️ Cấu hình môi trường (ví dụ)
-Backend (appsettings.Development.json hoặc environment variables)
-- ASPNETCORE_ENVIRONMENT=Development
-- ConnectionStrings__DefaultConnection=Server=.\SQLEXPRESS;Database=SmartCharityShopDB;Trusted_Connection=True;Trust Server Certificate=True
-- JWT__Key=<your-secret>
-- CORS__Origins=http://localhost:3000
+- Git  
+- .NET SDK 7+  
+- Flutter SDK  
+- SQL Server (ví dụ: SQLEXPRESS hoặc instance tương thích)  
 
-Frontend (Flutter)
-- API_BASE_URL=http://localhost:5000/api (cấu hình trong code hoặc dùng flutter_dotenv)
+---
 
-----
+## 📁 Cấu trúc thư mục (ví dụ)
 
-🚀 Cài đặt & chạy — Phân rõ FE / BE
+```
+backend/                ← mã nguồn ASP.NET Core  
+frontend/flutter_app/   ← ứng dụng Flutter / Dart  
+SmartCharityShopDB.sql   ← file SQL tạo schema + dữ liệu mẫu  
+README.md  
+.gitignore  
+```
 
-1) Backend (C# / ASP.NET Core) — 🖥️
+---
 
-- Bước 1 — Chuẩn bị project:
-  cd backend
-  dotnet restore
-  dotnet build
+## ⚙️ Cấu hình môi trường
 
-- Bước 2 — Tạo hoặc import database:
-  A) Nếu dùng file SQL (khuyến nghị cho lần đầu):
-     - Mở SQL Server Management Studio (SSMS), kết nối tới instance (ví dụ .\SQLEXPRESS).
-     - Mở file `sql/SmartCharityShopDB.sql` và nhấn Execute để tạo database, schema và dữ liệu mẫu.
+### Backend
 
-     Hoặc dùng sqlcmd (Command Prompt):
-     sqlcmd -S .\SQLEXPRESS -i "<path-to-repo>/sql/SmartCharityShopDB.sql"
+- Biến môi trường hoặc `appsettings.Development.json`:
 
-  B) Nếu bạn muốn dùng EF Core code-first và migration:
-     dotnet tool install --global dotnet-ef --version 7.0.0 || true
-     dotnet ef migrations add InitialCreate
-     dotnet ef database update
+| Khóa | Mô tả |
+|---|---|
+| `ASPNETCORE_ENVIRONMENT` | `"Development"` |
+| `ConnectionStrings:DefaultConnection` | Chuỗi kết nối tới SQL Server (ví dụ: `Server=.\SQLEXPRESS;Database=SmartCharityShopDB;Trusted_Connection=True;Trust Server Certificate=True`) |
+| `JWT:Key` | Khóa bí mật cho JWT |
+| `CORS:Origins` | Danh sách origin (ví dụ: `http://localhost:3000`) |
 
-- Bước 3 — Scaffold models từ database (reverse engineering):
-  Lưu ý: chỉ chạy khi database đã tồn tại. Chạy từ Package Manager Console (Visual Studio) hoặc CLI từ thư mục chứa .csproj.
+### Frontend (Flutter)
 
-  Package Manager Console (PMC):
+- Biến cấu hình API backend (ví dụ: `API_BASE_URL = http://localhost:5000/api`)  
+- Nếu sử dụng gói như `flutter_dotenv`, bạn có thể để trong `.env`  
+
+---
+
+## 🛠️ Cài đặt & chạy
+
+### 1) Backend
+
+```bash
+cd backend
+dotnet restore
+dotnet build
+```
+
+Nếu bạn dùng file SQL mẫu:
+
+- Mở **SmartCharityShopDB.sql** trong SQL Server / SSMS hoặc sử dụng `sqlcmd`:
+  ```bash
+  sqlcmd -S .\SQLEXPRESS -i path\to\SmartCharityShopDB.sql
+  ```
+- (Tùy chọn) Scaffold model từ DB:
+  ```bash
+  dotnet tool install --global dotnet-ef --version 7.0.0 || true
+  dotnet ef migrations add InitialCreate
+  dotnet ef database update
+
   Scaffold-DbContext "Data Source=.\SQLEXPRESS;Initial Catalog=SmartCharityShopDB;Integrated Security=True;Trust Server Certificate=True" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -Context SmartCharityContext -DataAnnotations -Force
-
-  CLI tương đương (dotnet ef):
-  dotnet ef dbcontext scaffold "Server=.\SQLEXPRESS;Database=SmartCharityShopDB;Trusted_Connection=True;TrustServerCertificate=True" Microsoft.EntityFrameworkCore.SqlServer --output-dir Models --context SmartCharityContext --data-annotations --force
-
-  Hướng dẫn ngắn:
-  - Đảm bảo `Microsoft.EntityFrameworkCore.SqlServer` đã được thêm vào project (dotnet add package Microsoft.EntityFrameworkCore.SqlServer).
-  - `-Force` sẽ ghi đè file; sao lưu mã tùy chỉnh nếu cần.
-
-- Bước 4 — Chạy ứng dụng:
+  ```
+- Chạy server:
+  ```bash
   dotnet run --urls "http://localhost:5000"
-  Kiểm tra: http://localhost:5000/health hoặc http://localhost:5000/swagger (nếu có)
+  ```
+- Kiểm tra endpoints (nếu có):  
+  `http://localhost:5000/health` hoặc `http://localhost:5000/swagger`
 
-2) Frontend (Flutter - Dart) — 📱 / 🌐
+### 2) Frontend (Flutter)
 
-- Bước 1 — Chuẩn bị project:
-  cd frontend/flutter_app
-  flutter pub get
+```bash
+cd frontend/flutter_app
+flutter pub get
+```
 
-- Bước 2 — Chạy trong môi trường phát triển:
-  - Web (Chrome): flutter run -d chrome
-  - Web server: flutter run -d web-server --web-hostname localhost --web-port 3000
-  - Device: kết nối emulator/device → flutter run
-
-- Bước 3 — Build production web:
+- Chạy trên trình duyệt (web):
+  ```bash
+  flutter run -d chrome
+  ```
+  hoặc
+  ```bash
+  flutter run -d web-server --web-hostname localhost --web-port 3000
+  ```
+- Chạy trên thiết bị Android / iOS:
+  ```bash
+  flutter run
+  ```
+- Build phiên bản sản xuất (web):
+  ```bash
   flutter build web --release
-  Output: build/web (phục vụ bằng static host nếu cần)
+  ```
+  Output sẽ nằm trong `build/web`
 
-----
+---
 
-🧩 Lưu ý về database & mô hình làm việc
-- Nếu sử dụng file `sql/SmartCharityShopDB.sql`, chạy file đó trước khi scaffold hoặc trước khi ứng dụng cố gắng kết nối.
-- Nếu dùng scaffold (reverse engineering), tách code tùy chỉnh khỏi những file có thể bị ghi đè (sử dụng partial classes hoặc folder riêng).
-- Thêm TrustServerCertificate=True nếu gặp lỗi chứng chỉ khi kết nối SQL Server.
+## 🧩 Database & Mô hình dữ liệu
 
-----
+- Nếu dùng **SmartCharityShopDB.sql**: chạy tệp để tạo schema + dữ liệu mẫu trước khi chạy ứng dụng  
+- Nếu dùng **Code-first / Migrations**: tạo entity → migration → `dotnet ef database update`  
+- Lưu ý khi scaffold (reverse engineering):  
+  – Đảm bảo DB đã tồn tại  
+  – Lệnh `-Force` sẽ ghi đè file, nên sao lưu nếu bạn có tùy chỉnh  
+  – Bạn có thể loại trừ các file do scaffold tự sinh nếu bạn sẽ thêm logic thủ công  
 
-⚙️ CI (GitHub Actions) — Mẫu pipeline (build & test)
-Tạo file `.github/workflows/ci.yml` với nội dung sau để tự động build & test Backend và Frontend (không deploy):
+---
+
+## 🧪 CI / GitHub Actions (mẫu)
+
+Bạn có thể tạo file `.github/workflows/ci.yml` như sau:
 
 ```yaml
 name: CI
@@ -143,20 +174,37 @@ jobs:
           flutter build web --release
 ```
 
-----
+Bạn có thể mở rộng thêm bước deploy nếu bạn có hạ tầng hosting.
 
-🐞 Troubleshooting nhanh
-- Kết nối SQL Server thất bại: kiểm tra instance name (ví dụ .\SQLEXPRESS), quyền truy cập, và chuỗi kết nối.
-- Scaffold lỗi: kiểm tra dependency `Microsoft.EntityFrameworkCore.SqlServer` và chạy lệnh từ thư mục chứa .csproj.
-- Flutter lỗi: chạy `flutter doctor` để xác minh môi trường phát triển.
+---
 
-----
+## 🛠️ Troubleshooting (gợi ý)
 
-🧭 Hướng dẫn đóng góp
-1) Fork → tạo branch `feature/<mô-tả>` hoặc `fix/<mô-tả>`
-2) Viết code, thêm test nếu cần
-3) Mở PR mô tả rõ thay đổi và hướng dẫn chạy local
+- Lỗi kết nối SQL Server: kiểm tra tên instance (ví dụ `.\\SQLEXPRESS`), quyền truy cập, cấu hình firewall  
+- Lỗi scaffold: kiểm tra gói NuGet `Microsoft.EntityFrameworkCore.SqlServer` đã được cài chưa; kiểm tra chuỗi kết nối  
+- Lỗi Flutter: chạy `flutter doctor` để kiểm tra môi trường, SDK, bản cập nhật  
+- CORS hoặc lỗi API: kiểm tra cấu hình trong backend và origin frontend  
 
-🔒 License & Liên hệ
-- License: thêm file LICENSE (ví dụ MIT) nếu cần
-- Liên hệ: @ttalearning
+---
+
+## 🤝 Hướng dẫn đóng góp
+
+1. Fork repository  
+2. Tạo branch mới: `feature/<mô-tả>` hoặc `fix/<mô-tả>`  
+3. Viết code, thêm test nếu có  
+4. Mở Pull Request, mô tả rõ thay đổi & cách chạy local  
+5. Đảm bảo CI / build vẫn pass  
+
+---
+
+## 📄 License & Liên hệ
+
+- **License**: (nếu bạn muốn) — ví dụ: MIT, Apache 2.0, v.v.  
+- **Liên hệ**: bạn có thể thêm email, Telegram, Slack, hoặc GitHub handle  
+
+---
+
+## ℹ️ Thông tin khác
+
+- Hiện tại repo chưa có mô tả, website hoặc topics rõ ràng. Bạn nên cập nhật phần này để giúp người khác dễ tiếp cận.  
+- Bạn có thể thêm badges (build status, coverage, license) lên đầu
